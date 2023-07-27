@@ -2,24 +2,11 @@
 <html>
 <head>
     <title>AntGPT</title>
-    <script type="text/javascript">
-        var password;
-
-        var pass1="antgpt";
-
-        password=prompt('WIP. This site will be up soon. If you are a team member, please enter the password to view this page.','');
-
-        if (password==pass1)
-            alert('Password Correct! Click OK to enter!');
-        else
-        {
-            window.location="http://www.google.com";
-        }
-    </script>
     <style>
         body {
             background-color: white;
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 100;
         }
         #title-banner {
             background-color: white;
@@ -38,11 +25,11 @@
             color: black;
         }
         .bibtex {
-            background-color: cyan;
+            background-color: #F5F5F5;
             padding: 20px;
         }
         #abstract {
-            margin: 20px;
+            margin: 19px;
             padding-right: 300px;
             padding-left: 300px;
         }
@@ -53,6 +40,11 @@
         #main-visualization {
             margin: 20px;
         }
+        figcaption {
+            font-size: 12px;
+            font-style: italic; /* Italicize the caption (optional) */
+            color: #666; /* Set the color of the caption (optional) */
+        }
         #result-visualization {
             margin: 20px;
             padding-top: 50px;
@@ -61,26 +53,45 @@
         }
         .image-row{
             display: flex;
+            padding-right: 30px
         }
-        .interpolation-image {
-            width: 50%;/*120vh;*/
+        .main-image {
+            width: 60%;/*120vh;*/
             background-size: cover;
             border-radius: 5px;
             display: block;
+            padding-left: 20px;
             margin-left: auto;
             margin-right: auto;
         }
         .interpolation-image2 {
-            width: 50%;/*120vh;*/
+            width: 100%;/*120vh;*/
+            background-size: cover;
+            border-radius: 5px;
+            /*display: block;*/
+            margin-top: auto;
+            margin-left: auto;
+        }
+        .interpolation-image3 {
+            width: 100%;
             background-size: cover;
             border-radius: 5px;
             display: block;
-            margin-top: 2px;
             margin-left: auto;
             margin-right: auto;
         }
-        .interpolation-image3 {
-            width: 80%;/*120vh;*/
+        .interpolation-image4 {
+            height: 100%;/*120vh;*/
+            width: 100%;/*120vh;*/
+            background-size: cover;
+            border-radius: 5px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .interpolation-image5 {
+            height: 100%;/*120vh;*/
+            width: 90%;/*120vh;*/
             background-size: cover;
             border-radius: 5px;
             display: block;
@@ -104,6 +115,7 @@
             text-align: center; /* Center the buttons */
         }
         #authors a {
+            color: blue;
             text-decoration: none; /* No underline */
         }
         #authors a:hover {
@@ -116,13 +128,13 @@
     <div id="title-banner">
         <h1 id="paper-title">AntGPT: Can Large Language Models Help Long-term Action Anticipation from Videos?</h1>
         <p id="authors">
-            <a href="mailto:author1@example.com">Qi Zhao<sup>*</sup><sup>1</sup></a>, 
-            <a href="mailto:author2@example.com">Ce Zhang<sup>*</sup><sup>1</sup></a>, 
-            <a href="mailto:author3@example.com">Shijie Wang<sup>1</sup></a>,
-            <a href="mailto:author3@example.com">Changcheng Fu<sup>1</sup></a>,
-            <a href="mailto:author3@example.com">Nakul Agarwal<sup>2</sup></a>,
-            <a href="mailto:author3@example.com">Kwonjoon Lee<sup>2</sup></a>,
-            <a href="mailto:author3@example.com">Chen Sun<sup>1</sup></a>
+            <a href="https://kevinz8866.github.io/">Qi Zhao<sup>*</sup><sup>1</sup></a>, 
+            <a href="mailto:ce_zhang@brown.edu">Ce Zhang<sup>*</sup><sup>1</sup></a>, 
+            <a href="https://wang-sj16.github.io/">Shijie Wang<sup>1</sup></a>,
+            <a href="https://www.linkedin.com/in/changcheng-fu/">Changcheng Fu<sup>1</sup></a>,
+            <a href="https://lukan94.github.io/">Nakul Agarwal<sup>2</sup></a>,
+            <a href="https://scholar.google.com/citations?user=C6Wu8M0AAAAJ&hl=en">Kwonjoon Lee<sup>2</sup></a>,
+            <a href="https://chensun.me/">Chen Sun<sup>1</sup></a>
         </p>
         <p id="affiliations">
             <sup>1</sup>Brown University, 
@@ -147,7 +159,7 @@
     </div>
 
     <div id="main-visualization">
-        <img src="./assets/main.gif" class="interpolation-image">
+        <img src="./assets/main.gif" class="main-image">
     </div>
     
     <div id="abstract">
@@ -165,12 +177,12 @@
             data (e.g. recipes, how-tos), have the potential to help LTA from both perspectives.
             It can help provide the prior knowledge on the possible next actions, and infer
             the goal given the observed part of a procedure, respectively. To leverage the
-            LLMs, we propose a two-stage framework, AntGPT. It first recognizes the actions
+            LLMs, we propose a two-stage framework, <strong>AntGPT</strong>. It first recognizes the actions
             already performed in the observed videos and then asks an LLM to predict the
             future actions via conditioned generation, or to infer the goal and plan the whole
             procedure by chain-of-thought prompting. Empirical results on the Ego4D LTA v1
             and v2 benchmarks, EPIC-Kitchens-55, as well as EGTEA GAZE+ demonstrate
-            the effectiveness of our proposed approach. AntGPT achieves state-of-the-art
+            the effectiveness of our proposed approach. <strong>AntGPT</strong> achieves state-of-the-art
             performance on all above benchmarks, and can successfully infer the goal and thus
             perform goal-conditioned “counterfactual” prediction via qualitative analysis.
         </p>
@@ -178,11 +190,17 @@
     <div id="result-visualization">
         <h2>AntGPT and its novel capabilities</h2>
         <div class="image-row">
-        <img src="./assets/antgptllm.png" class="interpolation-image2" alt="Result Visualization">
-        <img src="./assets/antgpttransformer.png" class="interpolation-image" alt="Result Visualization">
+            <div style="text-align: center; margin-right: 10px;">
+                <img src="./assets/antgptllm.png" class="interpolation-image2" alt="Result Visualization">
+                <figcaption>A illustration of how AntGPT utilize language models for LTA.</figcaption>
+            </div>
+            <div style="text-align: center;">
+                <img src="./assets/antgpttransformer.png" class="interpolation-image2" alt="Result Visualization">
+                <figcaption>An illustration of AntGPT's top-down framework.</figcaption>
+            </div>
         </div>
-        <p>AntGPT is a framework that aims to explore how to leverage the emergent capabilities of large language models into video long-term action anticipation (LTA). The LTA task is essentially given a video observation of human actions, to anticipate what is the future actions of the actor. To represent video information for LLMs, we use action recognition models to represent video observations into discrete action labels. They bridge visual information and language, allowing LLMs to perform the downstream reasoning tasks. We first query the LLM to infer the goals behind the observed actions. Then we incorporate the goal information into a vision-only pipeline to see if such goal-conditioned prediction is helpful. We also used LLM to directly model the temporal dynamics of human activity to see if LLM has built-in knowledge about action priors. Last but not least, we tested the capability of LLMs to perform the prediction tasks in a few-shot settings, using popular prompting strategies such as "Chain-of-Thought".</p>
-        <p>AntGPT shows novel capabilities: 
+        <p><strong>AntGPT</strong> is a vision-language framework that aims to explore how to incorporate the emergent capabilities of large language models into video long-term action anticipation (LTA). The LTA task is essentially given a video observation of human actions, to anticipate what is the future actions of the actor. To represent video information for LLMs, we use action recognition models to represent video observations into discrete action labels. They bridge visual information and language, allowing LLMs to perform the downstream reasoning tasks. We first query the LLM to infer the goals behind the observed actions. Then we incorporate the goal information into a vision-only pipeline to see if such goal-conditioned prediction is helpful. We also used LLM to directly model the temporal dynamics of human activity to see if LLM has built-in knowledge about action priors. Last but not least, we tested the capability of LLMs to perform the prediction tasks in a few-shot settings, using popular prompting strategies such as "Chain-of-Thought".</p>
+        <p><strong>AntGPT</strong> shows novel capabilities: 
         <li><strong>Predicting goals through few-shot observations</strong>: We observe that LLMs are very capable of predicting the goals of the actor even given imperfect observed human actions. In context, we demonstrate a few successful examples in which the correct actions and goals are given. Then in the query, we input the observed actions sequences and let LLM output the goals. </li>
         <li><strong>Augmenting vision frameworks with goal information</strong>: To testify whether the output goals are helpful for the LTA task, we encoder goal information into textual features and incorporate it into a vision framework to perform "goal-conditioned" future prediction and observed improvement to the state-of-the-art.</li>
         <li><strong>Modeling action temporal dynamics</strong>: We then explored if LLMs can directly act as a reasoning backbone to model the temporal action dynamics. To this end, we fine-tuned LLMs on the in-domain action sequences and observed that LLMs can bring additional improvement than a transformer trained from-scratch. </li>
@@ -191,23 +209,34 @@
     <div id="result-visualization">
         <h2>Key Research Questions We Explore</h2>
         <div  class="image-row">
-            <div>
-            <img src="./assets/ft1.png" class="interpolation-image3" alt="Result Visualization">
-            <img src="./assets/ft2.png" class="interpolation-image3" alt="Result Visualization">
+            <div style="text-align: center; margin-top: 15px; margin-right: 10px">
+                <img src="./assets/ft1.png" class="interpolation-image3" alt="Result Visualization">
+                <img src="./assets/ft2.png" class="interpolation-image3" alt="Result Visualization">
+                <figcaption>Examples of the fine-tuned model outputs.</figcaption>
             </div>
-        <img src="./assets/icl.png" class="interpolation-image" alt="Result Visualization">
+            <div style="text-align: center; margin-bottom: 20px">
+                <img src="./assets/icl.png" class="interpolation-image4" alt="Result Visualization">
+                <figcaption>Examples of in-context learning outputs.</figcaption>
+            </div>
         </div>
-        <p>In the course of our research, we ask ourselves some key questions in bridging LLM with long-term action anticipation. 
+        <p>In the course of our research, we delve into these key questions in bridging LLMs with long-term action anticipation. 
         </p><li><strong>What is a good interface between videos and LLMs for the LTA task?</strong>: We experimented with various preprocessing techniques and found that representing video segments as discrete action labels are quite performant to interact with the LLMs, allowing LLMs to perform downstream reasoning from video observations.</li>
         <li><strong>Can LLMs infer the goals and are they helpful for top-down LTA?</strong>: We conclude that LLMs can infer the goals and they are particularly helpful for goal-conditioned top-down LTA. As demonstrated in our experiment, our goal-conditioned framework consistantly perform better than our vision-only frameworks.</li>
         <li><strong>Do LLMs capture prior knowledge about temporal dynamics helpful for bottom-up LTA?</strong>: We found that fine-tuned LLM are better reasoning backbones than similar transformers trained from-scratch. Even with imperfect output structure and rough post-processing, LLMs still outperform their transformer peers.</li>
-        <li><strong>Would knowing the goals affect the action predicted by LLMs in a few-shot setting?</strong>: </li>
+        <li><strong>Would knowing the goals affect the action predicted by LLMs in a few-shot setting?</strong>: We observe that all LLM-based methods performs much better than transformer under few-shot setting especially on noun prediction, indicating the effectiveness of utilizing prior knowledge encoded in LLM for LTA task.</li>
         </p>
     </div>
         
     <div id="result-visualization">
         <h2>Goal-conditioned counterfactual predictions </h2>
-        <img src="./assets/cf.png" class="interpolation-image" alt="Result Visualization">
+        <div class='image-row'>
+            <div style="text-align: center; margin-right: 10px;">
+            <img src="./assets/cf1.png" class="interpolation-image5" alt="Result Visualization">
+            </div>
+            <div style="text-align: center; margin-right: 10px;">
+            <img src="./assets/cf2.png" class="interpolation-image5" alt="Result Visualization">
+            </div>
+        </div>
         <p>One interesting qualitative experiment we did is that since we conclude goals inferred by LLMs are useful and affects LLMs during in-context learning. We want to see if we give an alternative goal instead of the truly inferred goal, how would the output of LLM be affected? We observed that LLMs do respond according to the goal. For example, when we switch the inferred goal "fix machines" into "examine machines", LLMs will predict some actions that are exclusively related to "examine machines" like "read gauge", "record data", etc.</p>
     </div>
 
@@ -216,6 +245,7 @@
         <pre class="bibtex"><code>@article{zhao2023antgpt,
         title = {AntGPT: Can Large Language Models Help Long-term Action Anticipation from Videos?},
         author = {Qi Zhao and Ce Zhang and Shijie Wang and Changcheng Fu and Nakul Agarwal and Kwonjoon Lee and Chen Sun},
+        journal={arXiv preprint arXiv:2209.15501},
         year={2023}
      }</code></pre>
     </div>
