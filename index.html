@@ -230,11 +230,13 @@
     <div id="result-visualization">
         <h2>Goal-conditioned counterfactual predictions </h2>
         <div class='image-row'>
-            <div style="text-align: center; margin-right: 10px;">
+            <div style="text-align: center; margin-right: 10px; margin-bottom: 10px">
             <img src="./assets/cf1.png" class="interpolation-image5" alt="Result Visualization">
+            <figcaption>Examples of counterfactual predictions.</figcaption>
             </div>
-            <div style="text-align: center; margin-right: 10px;">
+            <div style="text-align: center; margin-bottom: 10px;">
             <img src="./assets/cf2.png" class="interpolation-image5" alt="Result Visualization">
+            <figcaption>Examples of counterfactual predictions.</figcaption>
             </div>
         </div>
         <p>One interesting qualitative experiment we did is that since we conclude goals inferred by LLMs are useful and affects LLMs during in-context learning. We want to see if we give an alternative goal instead of the truly inferred goal, how would the output of LLM be affected? We observed that LLMs do respond according to the goal. For example, when we switch the inferred goal "fix machines" into "examine machines", LLMs will predict some actions that are exclusively related to "examine machines" like "read gauge", "record data", etc.</p>
