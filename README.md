@@ -123,7 +123,7 @@ python -m transformer_models.run --cfg transformer_models/configs/ek_clip_featur
 
 ## Language Models Experiments
 
-To run a LLM based experiment, please use one of the workflow illustration [notebooks](/llm_models/Finetuning/workflow_illustration.ipynb).
+To run a LLM based experiment, please use one of the workflow illustration [notebooks](llm_models/Finetuning/workflow_illustration.ipynb).
 
 # Our Paper 
 
