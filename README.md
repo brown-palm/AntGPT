@@ -57,7 +57,9 @@ pip install -r requirements.txt
 
 ## Datasets
 
-Coming Soon!
+Download Ego4D dataset, annotations and pretrained models from [here](https://github.com/EGO4D/forecasting). <br>
+Download Epic-Kitchens 100 [dataset](https://github.com/epic-kitchens/epic-kitchens-download-scripts) and [annotations](https://github.com/epic-kitchens/epic-kitchens-100-annotations). <br>
+Download EGTEA GAZE+ dataset from [here](https://cbs.ic.gatech.edu/fpv/).
 
 ## Features
 
@@ -106,6 +108,7 @@ data
 ```
 
 # Getting Started
+Our codebase consists of two part the transformer based experiments and the language model based experiments. Implementation of each modules are located in the `transformer_models` folder and `LLM_models` folder respectively.
 
 ## Transformer Experiments
 
@@ -130,6 +133,7 @@ Our paper is available on [Arxiv](https://arxiv.org/abs/2307.16368). If you find
   year    = {2023}
 }
 ```
+
 # Lincense
 
 This project is released under the [TBD] license.
