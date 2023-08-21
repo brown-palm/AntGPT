@@ -9,7 +9,9 @@
 ![](assets/main.gif)
 </div>
 
-Can we better anticipate an actor’s future actions (e.g. mix eggs) by knowing what commonly happens after his/her current action (e.g. crack eggs)? What if we also know the longer-term goal of the actor (e.g. making egg fried rice)? The long-term action anticipation (LTA) task aims to predict an actor’s future behavior from video observations in the form of verb and noun sequences, and it is crucial for human-machine interaction. We propose to formulate the LTA task from two perspectives: a bottom-up approach that predicts the next actions autoregressively by modeling temporal dynamics; and a top-down approach that infers the goal of the actor and “plans” the needed procedure to accomplish the goal. We hypothesize that large language models (LLMs), which have been pretrained on procedure text data (e.g. recipes, how-tos), have the potential to help LTA from both perspectives. It can help provide the prior knowledge on the possible next actions, and infer the goal given the observed part of a procedure, respectively. To leverage the LLMs, we propose a two-stage framework, AntGPT. It first recognizes the actions already performed in the observed videos and then asks an LLM to predict the future actions via conditioned generation, or to infer the goal and plan the whole procedure by chain-of-thought prompting. Empirical results on the Ego4D LTA v1 and v2 benchmarks, EPIC-Kitchens-55, as well as EGTEA GAZE+ demonstrate the effectiveness of our proposed approach. AntGPT achieves state-of-the-art performance on all above benchmarks, and can successfully infer the goal and thus perform goal-conditioned “counterfactual” prediction via qualitative analysis.
+Can we better anticipate an actor’s future actions (e.g. mix eggs) by knowing what commonly happens after his/her current action (e.g. crack eggs)? What if we also know the longer-term goal of the actor (e.g. making egg fried rice)? We hypothesize that large language models (LLMs), which have been pretrained on procedure text data (e.g. recipes, how-tos), have the potential to help LTA from both perspectives. It can help provide the prior knowledge on the possible next actions, and infer the goal given the observed part of a procedure, respectively. 
+
+AntGPT is the proposed framework in our [paper](https://arxiv.org/abs/2307.16368) to leverage LLMs in video-based long-term action anticipation. AntGPT achieves state-of-the-art performance on the Ego4D LTA v1 and v2 benchmarks, EPIC-Kitchens-55, as well as EGTEA GAZE+ by the time of publication.
 
 # Contents
 - [Setup Environment](#Setup-Environment)
@@ -24,6 +26,33 @@ Can we better anticipate an actor’s future actions (e.g. mix eggs) by knowing 
 
 # Setup Environment
 
+If you are using OSCAR (Brown University's cluster): 
+
+```bash
+module load python/3.9.0 ffmpeg/4.0.1 gcc/10.2
+```
+
+Clone this repository.
+
+```bash
+git clone git@github.com:brown-palm/AntGPT.git
+cd AntGPT
+```
+
+Set up python (3.9) virtual environment. Install pytorch with the right CUDA version. 
+
+```bash
+python3 -m venv venv/forecasting
+source venv/forecasting/bin/activate
+pip install torch==2.0.0+cu117 torchvision==0.15.1+cu117 torchaudio==2.0.1 --extra-index-url https://download.pytorch.org/whl/cu117
+```
+
+Install other packages.
+
+```bash
+pip install -r requirements.txt 
+```
+
 # Prepare Data 
 
 ## Datasets
@@ -34,9 +63,57 @@ Coming Soon!
 
 Coming Soon!
 
+## On Brown CCV
+
+Most features are linked or pointed to the feature directory in the codebase already. Ensure the data folder structure is like this.
+```
+data
+├── ego4d 
+│   └── annotations
+|   │   ├── fho_lta_taxonomy.json
+|   │   ├── fho_test_unannotated.json
+│   │   ├── ...
+│   │
+│   └── clips
+│       ├── 0a7a74bf-1564-41dc-a516-f5f1fa7f75d1.mp4
+│       ├── 0a975e6e-4b13-426d-be5f-0ef99b123358.mp4
+│       ├── ...
+│
+├── ek 
+│   └── annotations
+|   │   ├── EPIC_many_shot_verbs.csv
+│   │   ├── ...
+│   │
+│   └── data_full  # (EK55)
+│       ├── rgb
+│       ├── obj
+│       └── flow
+│
+├── gaze 
+│   └── annotations
+|   │   ├── action_list_t+v.csv
+│   │   ├── ...
+│   │
+│   └── data_full
+│       ├── rgb
+│       ├── obj
+│       └── flow
+│
+└── text_features
+    ├── ego4d_feature_gt_val.pkl 
+    ├── ...
+
+```
+
 # Getting Started
 
 ## Transformer Experiments
+
+To run a transformer based experiment, please use the following command from the root directory
+
+```bash
+python -m transformer_models.run --cfg transformer_models/configs/ek_clip_feature_best.yaml --exp_name ek_lta/clip_feature
+```
 
 ## Language Models Experiments
 
@@ -47,10 +124,10 @@ Coming Soon!
 Our paper is available on [Arxiv](https://arxiv.org/abs/2307.16368). If you find our work or code useful, please consider citing us. 
 ```bibtex
 @article{zhao2023antgpt,
-  title     = {AntGPT: Can Large Language Models Help Long-term Action Anticipation from Videos?},
-  author    = {Qi Zhao and Ce Zhang and Shijie Wang and Changcheng Fu and Nakul Agarwal and Kwonjoon Lee and Chen Sun},
-  journal={arXiv preprint arXiv:2307.16368},
-  year      = {2023}
+  title   = {AntGPT: Can Large Language Models Help Long-term Action Anticipation from Videos?},
+  author  = {Qi Zhao and Ce Zhang and Shijie Wang and Changcheng Fu and Nakul Agarwal and Kwonjoon Lee and Chen Sun},
+  journal = {arXiv preprint arXiv:2307.16368},
+  year    = {2023}
 }
 ```
 # Lincense
