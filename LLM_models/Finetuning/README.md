@@ -1,7 +1,3 @@
-This folder contains the environment, data, scripts and results files for NeurIPS submission #3880: 
-**Can Large Language Models Help Long-term Action Anticipation from Videos?**
-In details, this part covers fine-tuning LLM for the quantitative results shown in table 1, 2 and figure 1.
-
 # Environment
 ```
 pip install pandas editdistance rapidfuzz openai
@@ -24,16 +20,3 @@ pip install pandas editdistance rapidfuzz openai
 + `edit_distance.py`: compute the edit distance with respect to groung truth.
 
 To see a demonstration of overall workflow: see ``workflow_illustration.ipynb``.
-
-# Existing Responses:
-Existing responses are stored in `responses/cg/`:
-For FT evaluation:
-```
-RESPONSE_FILE = [
-    responses_nseg8_recognition.json,             
-    responses_nseg1_recognition.json,        
-    responses_nseg3_recognition.json,        
-    responses_nseg5_recognition.json,  
-    responses_nseg8_gt.json,                # response file with ground-truth actions as input
-]
-```
