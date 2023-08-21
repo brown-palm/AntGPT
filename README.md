@@ -137,6 +137,6 @@ Our paper is available on [Arxiv](https://arxiv.org/abs/2307.16368). If you find
 }
 ```
 
-# Lincense
+# License
 
 This project is released under the [TBD] license.
