@@ -14,6 +14,7 @@ Can we better anticipate an actor’s future actions (e.g. mix eggs) by knowing 
 AntGPT is the proposed framework in our [paper](https://arxiv.org/abs/2307.16368) to leverage LLMs in video-based long-term action anticipation. AntGPT achieves state-of-the-art performance on the Ego4D LTA v1 and v2 benchmarks, EPIC-Kitchens-55, as well as EGTEA GAZE+ by the time of publication.
 
 # Contents
+- [Our Paper](#Our-Paper)
 - [Setup Environment](#Setup-Environment)
 - [Prepare Data](#Prepare-Data)
   - [Datasets](#Datasets)
@@ -21,8 +22,19 @@ AntGPT is the proposed framework in our [paper](https://arxiv.org/abs/2307.16368
 - [Getting Started](#Getting-Started)
   - [Transformer Experiments](#Transformer-Experiments)
   - [Language Models Experiments](#Language-Models-Experiments)
-- [Our Paper](#Our-Paper)
 - [License](#License)
+
+# Our Paper 
+
+Our paper is available on [Arxiv](https://arxiv.org/abs/2307.16368). If you find our work or code useful, please consider citing us. 
+```bibtex
+@article{zhao2023antgpt,
+  title   = {AntGPT: Can Large Language Models Help Long-term Action Anticipation from Videos?},
+  author  = {Qi Zhao and Ce Zhang and Shijie Wang and Changcheng Fu and Nakul Agarwal and Kwonjoon Lee and Chen Sun},
+  journal = {arXiv preprint arXiv:2307.16368},
+  year    = {2023}
+}
+```
 
 # Setup Environment
 
@@ -124,18 +136,6 @@ python -m transformer_models.run --cfg transformer_models/configs/ek_clip_featur
 ## Language Models Experiments
 
 To run a LLM based experiment, please use one of the workflow illustration [notebooks](llm_models/Finetuning/workflow_illustration.ipynb).
-
-# Our Paper 
-
-Our paper is available on [Arxiv](https://arxiv.org/abs/2307.16368). If you find our work or code useful, please consider citing us. 
-```bibtex
-@article{zhao2023antgpt,
-  title   = {AntGPT: Can Large Language Models Help Long-term Action Anticipation from Videos?},
-  author  = {Qi Zhao and Ce Zhang and Shijie Wang and Changcheng Fu and Nakul Agarwal and Kwonjoon Lee and Chen Sun},
-  journal = {arXiv preprint arXiv:2307.16368},
-  year    = {2023}
-}
-```
 
 # License
 
