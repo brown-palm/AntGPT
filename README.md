@@ -55,12 +55,15 @@ pip install -r requirements.txt
 
 # Prepare Data 
 
+In our experiments, we used data from Ego4D, Epic-Kitchens-55, and EGTEA GAZE+. For Epic-Kitchens-55 and EGTEA GAZE+, we also used the data annotation and splits of EGO-TOPO. We used [CLIP](https://github.com/openai/CLIP) to extract features from these datasets.
+
 ## Datasets
 
 Download Ego4D dataset, annotations and pretrained models from [here](https://github.com/EGO4D/forecasting). <br>
-Download Epic-Kitchens 100 [dataset](https://github.com/epic-kitchens/epic-kitchens-download-scripts) and [annotations](https://github.com/epic-kitchens/epic-kitchens-100-annotations). <br>
-Download EGTEA GAZE+ dataset from [here](https://cbs.ic.gatech.edu/fpv/).
-
+Download Epic-Kitchens 55 [dataset](https://github.com/epic-kitchens/epic-kitchens-download-scripts) and [annotations](https://github.com/epic-kitchens/epic-kitchens-55-annotations). <br>
+Download EGTEA GAZE+ dataset from [here](https://cbs.ic.gatech.edu/fpv/). <br>
+Download data annotations from [EGO-TOPO](https://github.com/facebookresearch/ego-topo/tree/main). Please refer to their instructions. 
+ 
 ## Features
 
 Coming Soon!
