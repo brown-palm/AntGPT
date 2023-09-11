@@ -111,9 +111,9 @@ data
 ```
 
 # Getting Started
-Our codebase consists of two part the transformer based experiments and the language model based experiments. Implementation of each modules are located in the `transformer_models` folder and `LLM_models` folder respectively.
+Our codebase consists of two part the transformer based experiments and the language model based experiments. Implementation of each modules are located in the `transformer_models` folder and `llm_models` folder respectively.
 
-## Transformer Experiments
+### Transformer Experiments
 
 To run a transformer based experiment, please use the following command from the root directory
 
@@ -121,9 +121,9 @@ To run a transformer based experiment, please use the following command from the
 python -m transformer_models.run --cfg transformer_models/configs/ek_clip_feature_best.yaml --exp_name ek_lta/clip_feature
 ```
 
-## Language Models Experiments
+### Language Models Experiments
 
-Coming Soon!
+To run a LLM based experiment, please use one of the workflow illustration [notebooks](llm_models/Finetuning/workflow_illustration.ipynb).
 
 # Our Paper 
 
@@ -137,6 +137,6 @@ Our paper is available on [Arxiv](https://arxiv.org/abs/2307.16368). If you find
 }
 ```
 
-# Lincense
+# License
 
 This project is released under the [TBD] license.
