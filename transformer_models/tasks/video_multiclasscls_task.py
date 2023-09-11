@@ -11,7 +11,7 @@ class VideoMultiClassClsTask(VideoTask):
         self.label_mask = None
 
     def forward(self, batch):
-
+        
         forecast_labels_idx = batch['forecast_labels_idx'] 
 
         input_texts = batch['text'] if self.cfg.data.use_gt_text else None   # (B, num_segments, 2)
@@ -25,9 +25,8 @@ class VideoMultiClassClsTask(VideoTask):
 
         if self.label_mask is None:
             self.label_mask = batch['label_mask']
-        
+
         logits = self.model.forward(input_texts, image_features, input_pred_text, mask_text, mask_image, mask_pred_text) 
-        
         return logits
 
     def training_step(self, batch, batch_idx):

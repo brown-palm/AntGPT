@@ -36,7 +36,6 @@ multicls:
 model:
   loss_fn: MultiClassBCELoss
   num_classes: [125, 5]
-  use_vid: False
   base_feat_size: 1024
   img_feat_size: 768
   pte:
@@ -45,50 +44,3 @@ model:
     pos_dropout: 0.2
   loss_wts_temporal: [1.]
   num_actions_to_predict: 1
-DATA:
-  NUM_FRAMES: 32
-  SAMPLING_RATE: 2
-  INPUT_CHANNEL_NUM: [3, 3]
-  TRAIN_JITTER_SCALES: [256, 320]
-  TRAIN_CROP_SIZE: 224
-  TEST_CROP_SIZE: 224
-SLOWFAST:
-  ALPHA: 4
-  BETA_INV: 8
-  FUSION_CONV_CHANNEL_RATIO: 2
-  FUSION_KERNEL_SZ: 5
-MVIT:
-  ZERO_DECAY_POS_CLS: False
-  SEP_POS_EMBED: True # Needs to be true for loading in model 
-  DEPTH: 16
-  NUM_HEADS: 1
-  EMBED_DIM: 96
-  PATCH_KERNEL: (3, 7, 7)
-  PATCH_STRIDE: (2, 4, 4)
-  PATCH_PADDING: (1, 3, 3)
-  MLP_RATIO: 4.0
-  QKV_BIAS: True
-  DROPPATH_RATE: 0.2
-  NORM: "layernorm"
-  MODE: "conv"
-  CLS_EMBED_ON: True
-  DIM_MUL: [[1, 2.0], [3, 2.0], [14, 2.0]]
-  HEAD_MUL: [[1, 2.0], [3, 2.0], [14, 2.0]]
-  POOL_KVQ_KERNEL: [3, 3, 3]
-  POOL_KV_STRIDE: [[0, 1, 8, 8], [1, 1, 4, 4], [2, 1, 4, 4], [3, 1, 2, 2], [4, 1, 2, 2], [5, 1, 2, 2], [6, 1, 2, 2], [7, 1, 2, 2], [8, 1, 2, 2], [9, 1, 2, 2], [10, 1, 2, 2], [11, 1, 2, 2], [12, 1, 2, 2], [13, 1, 2, 2]]
-  POOL_Q_STRIDE: [[1, 1, 2, 2], [3, 1, 2, 2], [14, 1, 2, 2]]
-  DROPOUT_RATE: 0.0
-RESNET:
-  ZERO_INIT_FINAL_BN: True
-  WIDTH_PER_GROUP: 64
-  NUM_GROUPS: 1
-  DEPTH: 101
-  TRANS_FUNC: bottleneck_transform
-  STRIDE_1X1: False
-  NUM_BLOCK_TEMP_KERNEL: [[3, 3], [4, 4], [23, 23], [3, 3]]
-  SPATIAL_STRIDES: [[1, 1], [2, 2], [2, 2], [2, 2]]
-  SPATIAL_DILATIONS: [[1, 1], [1, 1], [1, 1], [1, 1]]
-NONLOCAL:
-  LOCATION: [[[], []], [[], []], [[], []], [[], []]]
-  GROUP: [[1, 1], [1, 1], [1, 1], [1, 1]]
-  INSTANTIATION: softmax

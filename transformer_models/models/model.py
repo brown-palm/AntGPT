@@ -3,6 +3,8 @@ from torch import nn
 from torch.distributions import Categorical
 import math
 from ..parser import parse_args, load_config
+from pytorch_lightning import seed_everything
+from .slowfast import SlowFast
 
 
 class DropToken(nn.Module):
@@ -125,6 +127,7 @@ class MMPositionalEncoding(nn.Module):
 class PredictiveTransformerEncoder(nn.Module):
     def __init__(self, cfg, num_queries):
         super().__init__()
+        #seed_everything(cfg.seed)
         self.cfg = cfg
         dim_in = cfg.model.base_feat_size
         num_heads = cfg.model.pte.num_heads
@@ -197,7 +200,9 @@ class MLPDecoder(nn.Module):
 class ClassificationModule(nn.Module):
     def __init__(self, cfg):
         super().__init__()
+        #seed_everything(cfg.seed)
         self.cfg = cfg
+        self.backbone = SlowFast(cfg, with_head=True, num_classes=cfg.model.base_feat_size, head_dropout_rate=0)
         if cfg.data.use_gt_text:
             self.build_text_encoder()
         if cfg.data.use_goal:
@@ -228,6 +233,7 @@ class ClassificationModule(nn.Module):
     def build_aggregator(self):
         cfg = self.cfg
         aggregator = None
+        
         if cfg.model.aggregator == 'pte':
             aggregator = PredictiveTransformerEncoder(cfg, num_queries=cfg.model.num_actions_to_predict)
         elif cfg.model.aggregator == 'trf':
@@ -275,13 +281,12 @@ class ClassificationModule(nn.Module):
         return self.decoder(features)
 
     def forward(self, texts, image_features, pred_text, mask_text, mask_image, mask_pred_text):
-        
         text_features = self.encode_text(texts) if texts is not None else None
         #text_features = self.encode_text_feature(texts) if texts is not None else None
         if image_features is not None:
             image_features = self.encode_image_features(image_features)
         pred_text_features = self.encode_text_feature(pred_text) if pred_text is not None else None
-        features = self.aggregate(text_features, image_features, pred_text_features, mask_text, mask_image, mask_pred_text)  # (B, ?, D)
+        features = self.aggregate(text_features, image_features, pred_text_features, mask_text, mask_image, mask_pred_text)  # (B, ?, D) Might want to change the order of features to be totally consistent
         x = self.decode(features)  # [(B, Z, #verbs), (B, Z, #nouns)]
         return x
     

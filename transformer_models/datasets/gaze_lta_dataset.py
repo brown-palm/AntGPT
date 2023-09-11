@@ -302,10 +302,12 @@ def sanity_check():
     cfg = load_config(args)
     dm = GazeLTADataModule(cfg)
     dm.setup(stage="fit")
-    pprint(len(dm.train_set.annotations))
-    pprint(len(dm.val_set.annotations))
-    print(dm.val_set.label_mask)
+    #pprint(len(dm.train_set.annotations))
+    #pprint(len(dm.val_set.annotations))
+    #print(dm.val_set.label_mask)
     for i in range(len(dm.val_set.annotations)):
+        print(dm.val_set.annotations[i])
+        break
         s = set()
         for j in range(len(dm.val_set.annotations[i]['future']['verb'])):
             if dm.val_set.annotations[i]['future']['verb'][j]: s.add(j)
@@ -316,3 +318,7 @@ if __name__ == '__main__':
     sanity_check()
     # main()
 
+'''
+python -m transformer_models.datasets.gaze_lta_dataset --exp_name test
+
+'''

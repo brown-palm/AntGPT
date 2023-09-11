@@ -126,6 +126,8 @@ _C.model.loss_fn = "LTAWeightedLoss"
 _C.model.loss_wts_heads = [0.5, 0.5]
 # e.g. [1/20]*20: equal weights for each step
 _C.model.loss_wts_temporal = [1/20]*20
+#video backbone
+_C.model.backbone = "slowfast"
 # -1: no image feature
 _C.model.img_feat_size = -1
 # Image features and object features will be projected to this size.
@@ -258,6 +260,204 @@ _C.multicls.max_num_segments = -1
 
 _C.multicls.text_feature_path = 'text_features/feature_gt.pkl'
 
+# -----------------------------------------------------------------------------
+# Data options
+# -----------------------------------------------------------------------------
+_C.DATA = CfgNode()
+
+# Dataset Type
+_C.DATA.DATASET_TYPE = "ego4d"
+
+# The path to the data directory.
+_C.DATA.PATH_TO_DATA_DIR = ""
+
+# Video path prefix if any.
+_C.DATA.PATH_PREFIX = ""
+
+# Model head path if any
+_C.DATA.CHECKPOINT_MODULE_FILE_PATH = "ego4d/models/"
+
+# The spatial crop size of the input clip.
+_C.DATA.CROP_SIZE = 224
+
+# The number of frames of the input clip.
+_C.DATA.NUM_FRAMES = 32
+
+# The video sampling rate of the input clip.
+_C.DATA.SAMPLING_RATE = 2
+
+# For LTA. 'action': sample clips that have actions; 'near': sample clips that are near the future
+_C.DATA.CLIP_SAMPLING_STRATEGY = 'action'
+
+# 'random': sample clips from videos randomly; 'last': always sample clips in the last of the video.
+_C.DATA.CLIP_SAMPLER_TYPE = 'random'
+
+# In seconds. Only use when we need to construct input clips i.e. CLIP_SAMPLING_STRATEGY='near'.
+_C.DATA.MANUAL_CLIP_LENGTH = 2.0
+
+# In seconds. Would be overrided by (NUM_FRAMES * SAMPLING_RATE / FPS) if len(TARGET_FPS)=1
+_C.DATA.MANUAL_SUBCLIP_LENGTH = 1.0
+
+# In seconds. EK anticipation need it.
+_C.DATA.TAU_A = 1.0
+
+# The mean value of the video raw pixels across the R G B channels.
+_C.DATA.MEAN = [0.45, 0.45, 0.45]
+
+# List of input frame channel dimensions.
+_C.DATA.INPUT_CHANNEL_NUM = [3, 3]
+
+# The std value of the video raw pixels across the R G B channels.
+_C.DATA.STD = [0.225, 0.225, 0.225]
+
+# The spatial augmentation jitter scales for training.
+_C.DATA.TRAIN_JITTER_SCALES = [256, 320]
+
+# The spatial crop size for training.
+_C.DATA.TRAIN_CROP_SIZE = 224
+
+# The spatial crop size for testing.
+_C.DATA.TEST_CROP_SIZE = 224
+
+# Input videos may has different fps, convert it to the target video fps before
+# frame sampling.
+_C.DATA.TARGET_FPS = [30.0]
+
+# Decoding backend, options include `pyav` or `torchvision`
+_C.DATA.DECODING_BACKEND = "pyav"
+
+# if True, sample uniformly in [1 / max_scale, 1 / min_scale] and take a
+# reciprocal to get the scale. If False, take a uniform sample from
+# [min_scale, max_scale].
+_C.DATA.INV_UNIFORM_SAMPLE = False
+
+# If True, perform random horizontal flip on the video frames during training.
+_C.DATA.RANDOM_FLIP = True
+
+# RANDOM_FLIP_RATE during training.
+_C.DATA.RANDOM_FLIP_RATE = 0.5
+
+# If True, calculate the map as metric.
+_C.DATA.TASK = "single-label"
+
+# Method to perform the ensemble, options include "sum" and "max".
+_C.DATA.ENSEMBLE_METHOD = "sum"
+
+# If True, revert the default input channel (RBG <-> BGR).
+_C.DATA.REVERSE_INPUT_CHANNEL = False
+
+# Repeat dataset which times. Useful when we want to use 2 or more random clips from videos to train.
+_C.DATA.DATASET_REPEAT = 1
+
+# image level embeddings base path
+_C.DATA.IMG_FEAT_BASE_PATH = ''
+
+# object level embeddings base path
+_C.DATA.OBJ_FEAT_BASE_PATH = ''
+
+# sample images from clips or subclips?
+_C.DATA.IMG_FROM_CLIP = False
+
+# how many image embeddings to use in one clip
+_C.DATA.NUM_IMG_FEAT_PER_CLIP = 2
+
+# how many object embeddings to use in one clip
+_C.DATA.NUM_OBJECTS_PER_IMAGE = 10
+
+# how many object classes
+_C.DATA.MAX_OBJECTS_PER_IMAGE = 81
+
+# how may objects to keep
+_C.DATA.TOPK_OBJECT = 0
+
+# how many image features in one file
+_C.DATA.IMG_FEAT_NUM_PER_FILE = 0
+
+# (v, n) --> a
+_C.DATA.VOCAB_PATH = None
+
+# -----------------------------------------------------------------------------
+# ResNet options
+# -----------------------------------------------------------------------------
+_C.RESNET = CfgNode()
+
+# Transformation function.
+_C.RESNET.TRANS_FUNC = "bottleneck_transform"
+
+# Number of groups. 1 for ResNet, and larger than 1 for ResNeXt).
+_C.RESNET.NUM_GROUPS = 1
+
+# Width of each group (64 -> ResNet; 4 -> ResNeXt).
+_C.RESNET.WIDTH_PER_GROUP = 64
+
+# Apply relu in a inplace manner.
+_C.RESNET.INPLACE_RELU = True
+
+# Apply stride to 1x1 conv.
+_C.RESNET.STRIDE_1X1 = False
+
+#  If true, initialize the gamma of the final BN of each block to zero.
+_C.RESNET.ZERO_INIT_FINAL_BN = True
+
+# Number of weight layers.
+_C.RESNET.DEPTH = 101
+
+# If the current block has more than NUM_BLOCK_TEMP_KERNEL blocks, use temporal
+# kernel of 1 for the rest of the blocks.
+_C.RESNET.NUM_BLOCK_TEMP_KERNEL = [[3, 3], [4, 4], [23, 23], [3, 3]]
+
+# Size of stride on different res stages.
+_C.RESNET.SPATIAL_STRIDES = [[1, 1], [2, 2], [2, 2], [2, 2]]
+
+# Size of dilation on different res stages.
+_C.RESNET.SPATIAL_DILATIONS = [[1, 1], [1, 1], [1, 1], [1, 1]]
+
+# -----------------------------------------------------------------------------
+# Nonlocal options
+# -----------------------------------------------------------------------------
+_C.NONLOCAL = CfgNode()
+
+# Index of each stage and block to add nonlocal layers.
+_C.NONLOCAL.LOCATION = [[[], []], [[], []], [[], []], [[], []]]
+
+# Number of group for nonlocal for each stage.
+_C.NONLOCAL.GROUP = [[1, 1], [1, 1], [1, 1], [1, 1]]
+
+# Instatiation to use for non-local layer.
+_C.NONLOCAL.INSTANTIATION = "softmax"
+
+# Size of pooling layers used in Non-Local.
+_C.NONLOCAL.POOL = [
+    # Res2
+    [1, 2, 2],
+    # Res3
+    [1, 2, 2],
+    # Res4
+    [1, 2, 2],
+    # Res5
+    [1, 2, 2],
+]
+
+# -----------------------------------------------------------------------------
+# SlowFast options
+# -----------------------------------------------------------------------------
+_C.SLOWFAST = CfgNode()
+
+# Corresponds to the inverse of the channel reduction ratio, $\beta$ between
+# the Slow and Fast pathways.
+_C.SLOWFAST.BETA_INV = 8
+
+# Corresponds to the frame rate reduction ratio, $\alpha$ between the Slow and
+# Fast pathways.
+_C.SLOWFAST.ALPHA = 4
+
+# Ratio of channel dimensions between the Slow and Fast pathways.
+_C.SLOWFAST.FUSION_CONV_CHANNEL_RATIO = 2
+
+# Kernel dimension used for fusing information from Fast pathway to Slow
+# pathway.
+_C.SLOWFAST.FUSION_KERNEL_SZ = 5
 
 def get_cfg():
     return _C.clone()
+
