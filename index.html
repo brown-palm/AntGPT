@@ -73,7 +73,8 @@
             margin-left: auto;
         }
         .interpolation-image3 {
-            width: 100%;
+            height: 100%;/*120vh;*/
+            width: 90%;
             background-size: cover;
             border-radius: 5px;
             display: block;
@@ -187,7 +188,7 @@
         <h2>AntGPT and its novel capabilities</h2>
         <div class="image-row">
             <div style="text-align: center; margin-right: 10px;">
-                <img src="./assets/antgptllm.png" class="interpolation-image2" alt="Result Visualization">
+                <img src="./assets/antgpt_model2.png" class="interpolation-image2" alt="Result Visualization">
                 <figcaption>A illustration of how AntGPT utilize language models for LTA.</figcaption>
             </div>
             <div style="text-align: center;">
@@ -203,35 +204,52 @@
         <li><strong>Predicting future actions in few-shot setting</strong>: We further explored how do LLMs perform on the LTA task in a few-shot setting. When only demonstrating a few examples in the context, LLMs can still predict the future action sequences. Furthermore, we experimented with popular prompting strategies.</li>
     </div>
     <div id="result-visualization">
-        <h2>Key Research Questions We Explore</h2>
+        <h2>Can LLMs Infer Goals to Assist Top-down ?</h2>
         <div  class="image-row">
-            <div style="text-align: center; margin-top: 15px; margin-right: 10px">
-                <img src="./assets/ft1.png" class="interpolation-image3" alt="Result Visualization">
-                <img src="./assets/ft2.png" class="interpolation-image3" alt="Result Visualization">
+            <div style="text-align: center; margin-top: 0px; margin-right: 10px; margin-bottom: 10px">
+                <img src="./assets/goal_visualization_fig2.jpg" class="interpolation-image3" alt="Result Visualization">
                 <figcaption>Examples of the fine-tuned model outputs.</figcaption>
             </div>
-            <div style="text-align: center; margin-bottom: 20px">
-                <img src="./assets/icl.png" class="interpolation-image4" alt="Result Visualization">
+            <div style="text-align: center; margin-bottom: 10px">
+                <img src="./assets/cf1.png" class="interpolation-image4" alt="Result Visualization">
                 <figcaption>Examples of in-context learning outputs.</figcaption>
             </div>
         </div>
-        <p>In the course of our research, we delve into these key questions in bridging LLMs with long-term action anticipation. 
-        </p><li><strong>What is a good interface between videos and LLMs for the LTA task?</strong>: We experimented with various preprocessing techniques and found that representing video segments as discrete action labels are quite performant to interact with the LLMs, allowing LLMs to perform downstream reasoning from video observations.</li>
-        <li><strong>Can LLMs infer the goals and are they helpful for top-down LTA?</strong>: We conclude that LLMs can infer the goals and they are particularly helpful for goal-conditioned top-down LTA. As demonstrated in our experiment, our goal-conditioned framework consistently performs better than our vision-only frameworks.</li>
-        <li><strong>Do LLMs capture prior knowledge about temporal dynamics helpful for bottom-up LTA?</strong>: We found that fine-tuned LLM are better reasoning backbones than similar transformers trained from-scratch. Even with imperfect output structure and rough post-processing, LLMs still outperform their transformer peers.</li>
-        <li><strong>Would knowing the goals affect the action predicted by LLMs in a few-shot setting?</strong>: We observe that all LLM-based methods performs much better than transformers under few-shot settings, especially on noun prediction, indicating the effectiveness of utilizing prior knowledge encoded in LLM for LTA task.</li>
-        </p>
+        <p></p>
+        <li><strong>What is a good interface between videos and LLMs for the LTA task?</strong>: We experimented with various preprocessing techniques and found that representing video segments as discrete action labels are quite performant to interact with the LLMs, allowing LLMs to perform downstream reasoning from video observations.</li>
+        <li><strong>Can LLMs infer the goals and are they helpful for top-down LTA?</strong>: We find that LLMs can infer the goals and they are particularly helpful for goal-conditioned top-down LTA. As demonstrated in our experiment, our goal-conditioned framework consistently performs better than our vision-only frameworks.</li>
+        <li><strong>Would knowing the goals affect the action predicted by LLMs?</strong>: We did an interesting qualitative experiment to see how about would goal affect the action prediction after we conclude goals inferred by LLMs are useful. If we give an alternative goal instead of the truly inferred goal, how would the output of LLM be affected? We observed that LLMs do respond according to the goal. For example, when we switch the inferred goal "fix machines" into "examine machines", LLMs will predict some actions that are exclusively related to "examine machines" like "read gauge", "record data", etc.</li>
     </div>
         
     <div id="result-visualization">
-        <h2>Goal-conditioned counterfactual predictions </h2>
+        <h2>Do LLMs Model Temporal Dynamics? </h2>
+        <div class='image-row'>
+            <div style="text-align: center; margin-bottom: 10px; margin-right: 10px">
+                <img src="./assets/ft1.png" class="interpolation-image3" alt="Result Visualization">
+                <figcaption>Examples of the fine-tuned model outputs.</figcaption>
+            </div>
+            <div style="text-align: center; margin-bottom: 10px">
+                <img src="./assets/ft2.png" class="interpolation-image3" alt="Result Visualization">
+                <figcaption>Examples of in-context learning outputs.</figcaption>
+            </div>
+        </div>
+        <p></p>
+        <li><strong>LLMs are able to model temporal dynamics</strong>: We found that fine-tuned LLM are better reasoning backbones than similar transformers trained from-scratch. Even with imperfect output structure and rough post-processing, LLMs still outperform their transformer peers.</li>
+        <li><strong>LLM-based temporal model performs implicit goal inference</strong>: We found that fine-tuned LLMs do implicit goal inference as when we add inferred goal to the fine-tuned LLMs the performance does not increase compare to their bottom-up counterparts.</li>
+        <li><strong>Language prior encoded by LLMs benefit LTA</strong>:Through semantic perbutation experiments, we found that with other symbolic representation of actions, the temporal dynamics modeling ability decreases indicating that LLMs leverage the language prior to achieve better temporal dynamics modeling.
+        <li><strong>LLM-encoded knowledge can be condensed into a compact model</strong>: We conduct knowledge distillation to train a small student model using the fine-tuned LLM as a teacher model and observed the knowledge can be transferred and the student model can outperform the teacher model. </li>
+
+    </div>
+
+    <div id="result-visualization">
+        <h2>Few-shot predictions </h2>
         <div class='image-row'>
             <div style="text-align: center; margin-right: 10px; margin-bottom: 10px">
             <img src="./assets/cf1.png" class="interpolation-image5" alt="Result Visualization">
             <figcaption>Examples of counterfactual predictions.</figcaption>
             </div>
             <div style="text-align: center; margin-bottom: 10px;">
-            <img src="./assets/cf2.png" class="interpolation-image5" alt="Result Visualization">
+            <img src="./assets/icl.png" class="interpolation-image5" alt="Result Visualization">
             <figcaption>Examples of counterfactual predictions.</figcaption>
             </div>
         </div>
