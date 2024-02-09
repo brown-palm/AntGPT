@@ -65,7 +65,10 @@ Download data annotations from [EGO-TOPO](https://github.com/facebookresearch/eg
  
 ## Features
 We used [CLIP](https://github.com/openai/CLIP) to extract features from these datasets.
-
+You can use the feature extraction file under transformer_models to extract the features.
+```bash
+python -m transformer_models.generate_clip_img_embedding
+```
 
 ## On Brown CCV
 

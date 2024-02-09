@@ -73,40 +73,26 @@ def get_full_video_clips(video_path):
 
 
 if __name__ == '__main__':
-    input_dir_nlq = '/oscar/data/csun45/czhan164/QAEgo4D/v1/clips/'
-    output_dir_nlq = '/oscar/data/csun45/czhan164/QAEgo4D/v1/clips_embedding/'
-    
-    input_dir = '/gpfs/data/csun45/cfu17/ego4d_fho_data/v1/clips_low_res/'
-    output_dir = '/gpfs/data/csun45/cfu17/GLIP_temp/output_CLIP_img_embedding_kmeans_ego4d/'
     target_fps = 1
     target_out_fps = 30
+
+    #change to path you like
+    input_dir_ego4D_v1 = 'data/ego4d_fho_data/v1/clips_low_res/'
+    output_dir_ego4D_v1 = 'data/output_CLIP_img_embedding_ego4dv1/'    
     
-    input_dir_50salads = '/gpfs/data/csun45/cfu17/50salads/rgb/'
-    output_dir_50salads = '/gpfs/data/csun45/cfu17/GLIP_temp/output_embedding_50salads_v2/'
-    output_dir_img_50salads = '/gpfs/data/csun45/cfu17/GLIP_temp/output_CLIP_img_embedding_50salads/'
+    input_dir_gaze = 'data/EGTEA Gaze+/gaze_videos_cut/'
+    output_dir_gaze = 'data/output_CLIP_img_embedding_gaze/'
     
-    input_dir_breakfast = '/gpfs/data/csun45/cfu17/GLIP/Breakfast/'
-    output_dir_breakfast = '/gpfs/data/csun45/cfu17/GLIP_temp/output_embedding_breakfast/'
-    output_dir_img_breakfast = '/gpfs/data/csun45/cfu17/GLIP_temp/output_CLIP_img_embedding_breakfast/'
+    input_dir_ego4D_v2 = 'data/ego4d_fho_data_v2/v2/clips_low_res/'
+    output_dir_ego4D_v2 = 'data/output_CLIP_img_embedding_ego4dv2/'
     
-    input_dir_gaze = '/users/cfu17/data/cfu17/EGTEA Gaze+/gaze_videos_cut/'
-    output_dir_gaze = '/gpfs/data/csun45/cfu17/GLIP_temp/output_CLIP_img_embedding_gaze/'
+    input_dir_ek55 = 'data/EK_lowres_cut/ek55/'
+    output_dir_ek55 = 'data/output_CLIP_img_embedding_ek55/'
     
-    input_dir_tvhi = '/gpfs/data/csun45/cfu17/TVHI/tv_human_interactions_videos/'
-    output_dir_tvhi = '/gpfs/data/csun45/cfu17/GLIP_temp/output_CLIP_img_embedding_tvhi/'
-    output_dir_tvhi2 = '/gpfs/data/csun45/cfu17/GLIP_temp/output_CLIP_img_embedding_tvhi_24fps/'
-    
-    input_dir_ego4D_v2 = '/gpfs/data/csun45/cfu17/ego4d_fho_data_v2/v2/clips_low_res/'
-    output_dir_ego4D_v2 = '/gpfs/data/csun45/cfu17/GLIP_temp/output_embedding_ego4dv2_clip_olcs/'
-    
-    input_dir_ek55 = '/users/swang299/data/cfu17/GLIP/EK_lowres_cut/ek55/'
-    output_dir_ek55 = '/gpfs/data/csun45/cfu17/GLIP_temp/output_CLIP_img_embedding_ek55/'
-    
-    input_dir = input_dir_ek55
-    output_dir = output_dir_ek55
+    input_dir = input_dir_ego4D_v1
+    output_dir = output_dir_ego4D_v1
     
     parser = argparse.ArgumentParser(description='A test program.')
-    # parser.add_argument("--embed_type",help="Embedding_type for generation", default="obj", type=str)
     parser.add_argument("--start_idx", help="Start idx for generation", default=0, type=int)
     parser.add_argument("--end_idx", help="End idx for generation", default=0, type=int)
     parser.add_argument("--gpu", type=int, default="0")
