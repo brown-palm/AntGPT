@@ -133,7 +133,9 @@ venv.bak/
 
 #data
 data/
-
+dataset/
+#output
+peft_ckpt/
 #text_features
 text_features/
 

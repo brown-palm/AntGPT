@@ -20,7 +20,7 @@ class GazeLTADataset(Dataset):
         self.is_train = is_train
         self.is_val = is_val
         self.annotation_path = annotation_path
-        self.annotations = self.convert(file_util.load_json(self.annotation_path))
+        self.annotations = self.convert(file_util.load_json(self.annotation_path))        
 
     def get_future_anno(self, segments):
         df = pd.DataFrame(segments)
@@ -43,6 +43,35 @@ class GazeLTADataset(Dataset):
                 output['verb'][i] = True
             l_output.append(output)
         return l_output
+    
+    def get_text_anno(self, segments):
+        segment_info = segments.copy()
+        if self.is_train:
+            target_Ks = self.cfg.multicls.train_Ks
+        if self.is_val:
+            target_Ks = self.cfg.multicls.val_Ks
+            if self.cfg.data.text.recog_file != '':
+                for i in segment_info:
+                    key = i['clip_uid'] + "_" + str(i['action_idx'])
+                    i['verb_label'] = self.recognition_result[key]['verb'][0][0]
+                    i['noun_label'] = self.recognition_result[key]['noun'][0][0]
+            
+        df = pd.DataFrame(segment_info)
+        l_output = []
+        for i in target_Ks:
+            hist_clips = df[df['elocation']<=i]
+            pred_clips = df[df['slocation']>i]
+            if len(hist_clips) < 3 or len(pred_clips) < 3:
+                continue
+                
+            lv = hist_clips['verb_label'][-self.cfg.multicls.max_num_segments:].values.tolist()
+            ln = hist_clips['noun_label'][-self.cfg.multicls.max_num_segments:].values.tolist()
+            s = ''
+            for i,j in zip(lv,ln):
+                s += self.verb_dictionary[i]+" "+self.noun_dictionary[j] + ", "
+            l_output.append(dict({'action': s[:-2]+" =>"}))
+            
+        return l_output
 
     def get_image_anno(self, segments):
         df = pd.DataFrame(segments)
@@ -60,7 +89,6 @@ class GazeLTADataset(Dataset):
             anno = {
                 "path": '{}/{}.pt'.format(self.cfg.data.image.base_path, segments[0]['clip_uid']),
                 "verb": [],  # verb idx
-                "K": segments[0]['K'],
                 "meta_data": [],  # each element: frame index when extracting image features
             }
                 
@@ -121,6 +149,12 @@ class GazeLTADataset(Dataset):
         if self.cfg.data.use_goal:
             modalities.append('text_feature')
             self.text_features = file_util.load_pickle(self.cfg.multicls.text_feature_path)
+        if self.cfg.data.use_gt_text:
+            modalities.append('text')
+            self.recognition_result = None
+            if self.cfg.data.text.recog_file != '' and self.is_val:
+                self.recognition_result = file_util.load_json(self.cfg.data.text.recog_file)
+            self.build_tokenizer()
         
         segments_all = row_annotations['clips']
         segments_all.sort(key=lambda x: x['clip_uid'])  # for itertools.groupby
@@ -161,6 +195,12 @@ class GazeLTADataset(Dataset):
     def fill_future(self, anno):
         pass
 
+    def fill_text(self, anno):
+        prompt = torch.tensor(
+            self.tokenizer.encode(anno["action"]), dtype=torch.int64
+        )
+        anno['inputs'] = prompt
+
     def fill_image(self, anno):
         indices = anno['meta_data']
         num_frames_per_file = self.cfg.data.image.split 
@@ -196,7 +236,6 @@ class GazeLTADataset(Dataset):
         for modality in annotation:
             if modality != 'future':
                 observed_labels_idx = torch.tensor(annotation[modality]['verb'])
-                Ks = torch.tensor(annotation[modality]['K'])
                 break
         item = {
             'forecast_labels_idx': torch.tensor(annotation['future']['verb']),  # (num_verb_classes, )
@@ -208,6 +247,9 @@ class GazeLTADataset(Dataset):
             item['image_features'] = annotation['image']['inputs']  # (num_input_segments * num_images_per_segment, D)
         if self.cfg.data.use_goal:
             item['text_feature'] = annotation['text_feature']
+        if self.cfg.data.use_gt_text:
+            item['text'] = annotation['text']['inputs']
+        
         return item
 
     def __len__(self):
@@ -239,12 +281,30 @@ class Collater(object):
                     # (N, ...) --> (M, ...)
                     if m > len(t):
                         pad = torch.zeros((m - len(t), ) + (t[0].shape))
-                        ls.append(torch.cat([pad, t], dim=0))  # pad
+                        ls.append(torch.cat([pad, t], dim=0))  # pad, match from the end
                     else:
                         ls.append(t) 
                     masks.append(torch.tensor(mask))
                 output[key] = torch.stack(ls, dim=0)
                 output['mask_image'] = torch.stack(masks, dim=0)
+            elif key == 'text':
+                m = self.cfg.model.llama.max_position_embeddings
+                ls = []
+                masks = []
+                for el in batch:
+                    t = el[key]  # (N, ...)
+                    if m > len(t):
+                        mask = [False] * m
+                        for i in range(len(t)):
+                            mask[i] = True
+                        pad = torch.zeros((m - len(t), ) + (t[0].shape))
+                        ls.append(torch.cat([t, pad], dim=0))  # pad, match from the beginning
+                    else:
+                        mask = [True] * m
+                        ls.append(t[:m]) 
+                    masks.append(torch.tensor(mask))
+                output[key] = torch.stack(ls, dim=0).to(dtype=torch.int64)
+                output['mask_text'] = torch.stack(masks, dim=0)
             elif key == 'text_feature':
                 output[key] = torch.stack([el[key]['inputs'] for el in batch], dim=0).unsqueeze(dim=1)
                 output['mask_text_feature'] = torch.stack([torch.tensor([False]) for el in batch], dim=0)

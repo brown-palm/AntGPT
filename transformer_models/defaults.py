@@ -148,6 +148,8 @@ _C.model.pte.num_layers = 3
 _C.model.pte.enc_dropout = 0.1
 
 _C.model.pte.pos_dropout = 0.1
+#
+_C.model.is_causal = False
 #decoding options
 _C.model.autoregressive = False
 #whether use teacherforcing in training, only matters when autoregressive
@@ -160,11 +162,13 @@ _C.model.teacherforcing = False
 _C.data = CfgNode()
 # anticipation time. in seconds. 
 _C.data.tau_a = 0.0
-
+# 
 _C.data.strict = True
 # path to annotation path
 _C.data.train_anno_path = ""
+# path to annotation path
 _C.data.val_anno_path = ""
+# path to annotation path
 _C.data.test_anno_path = ""
 # examples to keep (file path).  "" keeps everything.
 _C.data.examples_to_keep = ""
@@ -172,9 +176,8 @@ _C.data.examples_to_keep = ""
 _C.data.base_path = ""
 # e.g. ".mp4"
 _C.data.suffix = ''
-
+# path to annotation path
 _C.data.vocab_path = None
-
 # [start, end). e.g. [-3, 10).  0 is the current segment.
 _C.data.output_segments = [0, 20]
 # If False, drop examples that do not have enough outputs.
@@ -210,9 +213,9 @@ _C.data.jitter_scales = [256, 320]
 # The number of frames of the input clip.
 _C.data.num_frames = 32
 
-
 # Image Data Config
 _C.data.image = CfgNode()
+# image data path
 _C.data.image.base_path = 'data/ego4d/image_features'
 # how many frames to split when generateing features
 _C.data.image.split = -1
@@ -241,6 +244,7 @@ _C.data.prediction_path = ''
 _C.data.use_goal = False
 
 _C.data.train_text_feature_path = ''
+
 _C.data.val_text_feature_path = ''
 
 # -----------------------------------------------------------------------------

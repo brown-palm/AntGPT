@@ -10,7 +10,6 @@ class VideoClassificationTask(VideoTask):
     def __init__(self, cfg, steps_in_epoch):
         super().__init__(cfg, steps_in_epoch)
         self.cfg = cfg
-        # TODO: check if cfg.train.checkpoint_metric is indeed in the logs
 
     def forward(self, batch, train=True):
         '''
@@ -172,7 +171,6 @@ class VideoClassificationTask(VideoTask):
 
         last_observed_ids = batch['last_observed_id']  # list of "<clip_uid>_<last_visible_action_idx>"
 
-        # TODO: optimize sequences
         sequences = sequences_all['naive']
 
         step_result = {

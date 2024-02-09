@@ -12,7 +12,6 @@ class DropToken(nn.Module):
         super().__init__()
         self.dim = dim  # (D, )
         self.pad = torch.nn.parameter.Parameter(torch.randn(dim))  # (D)
-        # TODO: figure out initialization
         # self.pad = torch.nn.parameter.Parameter(torch.zeros(dim))  # (D)
         self.drop_prob = drop_prob
 
@@ -134,7 +133,6 @@ class PredictiveTransformerEncoder(nn.Module):
         num_layers = cfg.model.pte.num_layers
         self.num_queries = num_queries
 
-        # TODO: check initialization
         self.queries = torch.nn.parameter.Parameter(torch.randn((cfg.model.num_actions_to_predict, dim_in)))  # (Z, D)
         # self.queries = torch.nn.parameter.Parameter(torch.zeros((num_queries, dim_in)))  # (Z, D)
         self.encoder = nn.TransformerEncoder(
@@ -164,14 +162,14 @@ class PredictiveTransformerEncoder(nn.Module):
         x = torch.cat([feat for feat in [text_features, pred_text_features, image_features, queries] if feat is not None], dim=0)
         mask_query = torch.zeros((batch_size, self.num_queries), dtype=torch.bool, device=queries.device)  # (B, Z)
         mask = torch.cat([feat for feat in [mask_text, mask_pred_text, mask_image, mask_query] if feat is not None], dim=-1)
-        x = self.encoder(x, src_key_padding_mask=mask, is_causal=False)  # (num_inputs + Z, B, D)
+        x = self.encoder(x, src_key_padding_mask=mask)  # (num_inputs + Z, B, D)
         if self.cfg.model.autoregressive:
             if self.cfg.model.teacherforcing and train:
                 x = x[-self.cfg.model.num_actions_to_predict:, ...]  # (Z, B, D)
             else:
                 seq = x
                 for _ in range(self.cfg.model.total_actions_to_predict):
-                    next = self.encoder(x, src_key_padding_mask=mask, is_causal=True)[-1:, :, :]  # (1, B, D)
+                    next = self.encoder(x, src_key_padding_mask=mask, is_causal=False)[-1:, :, :]  # (1, B, D)
                     x = torch.cat([x, next], dim=0)[1:,:,:]
                     seq = torch.cat([seq, next], dim=0)
                 x = seq[-self.cfg.model.total_actions_to_predict:, ...]  # (Z, B, D)

@@ -40,7 +40,7 @@ class VideoMultiClassClsTask(VideoTask):
         step_results['train/loss'] = loss
         self.log('train/loss_step', loss.item(), rank_zero_only=True)
 
-        mAP = eval_util.distributed_mean_AP(logits.sigmoid(), labels)
+        mAP = eval_util.distributed_mean_AP(logits.sigmoid()[:,self.label_mask[0]], labels[:,self.label_mask[0]])
         step_results[f'train/mAP'] = mAP
 
         return step_results
