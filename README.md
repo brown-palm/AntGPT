@@ -26,12 +26,6 @@ AntGPT is the proposed framework in our [paper](https://arxiv.org/abs/2307.16368
 
 # Setup Environment
 
-If you are using OSCAR (Brown University's cluster): 
-
-```bash
-module load python/3.9.0 ffmpeg/4.0.1 gcc/10.2
-```
-
 Clone this repository.
 
 ```bash
@@ -47,6 +41,11 @@ source venv/forecasting/bin/activate
 pip install torch==2.0.0+cu117 torchvision==0.15.1+cu117 torchaudio==2.0.1 --extra-index-url https://download.pytorch.org/whl/cu117
 ```
 
+Install CLIP
+```bash
+pip install git+https://github.com/openai/CLIP.git
+```
+
 Install other packages.
 
 ```bash
@@ -55,7 +54,7 @@ pip install -r requirements.txt
 
 # Prepare Data 
 
-In our experiments, we used data from Ego4D, Epic-Kitchens-55, and EGTEA GAZE+. For Epic-Kitchens-55 and EGTEA GAZE+, we also used the data annotation and splits of EGO-TOPO. We used [CLIP](https://github.com/openai/CLIP) to extract features from these datasets.
+In our experiments, we used data from Ego4D, Epic-Kitchens-55, and EGTEA GAZE+. For Epic-Kitchens-55 and EGTEA GAZE+, we also used the data annotation and splits of EGO-TOPO. 
 
 ## Datasets
 
@@ -65,8 +64,8 @@ Download EGTEA GAZE+ dataset from [here](https://cbs.ic.gatech.edu/fpv/). <br>
 Download data annotations from [EGO-TOPO](https://github.com/facebookresearch/ego-topo/tree/main). Please refer to their instructions. 
  
 ## Features
+We used [CLIP](https://github.com/openai/CLIP) to extract features from these datasets.
 
-Coming Soon!
 
 ## On Brown CCV
 
@@ -127,13 +126,13 @@ To run a LLM based experiment, please use one of the workflow illustration [note
 
 # Our Paper 
 
-Our paper is available on [Arxiv](https://arxiv.org/abs/2307.16368). If you find our work or code useful, please consider citing us. 
+Our paper is available on [Arxiv](https://arxiv.org/abs/2307.16368). If you find our work  useful, please consider citing us. 
 ```bibtex
 @article{zhao2023antgpt,
   title   = {AntGPT: Can Large Language Models Help Long-term Action Anticipation from Videos?},
-  author  = {Qi Zhao and Ce Zhang and Shijie Wang and Changcheng Fu and Nakul Agarwal and Kwonjoon Lee and Chen Sun},
-  journal = {arXiv preprint arXiv:2307.16368},
-  year    = {2023}
+  author  = {Qi Zhao and Shijie Wang and Ce Zhang and Changcheng Fu and Nakul Agarwal and Kwonjoon Lee and Chen Sun},
+  journal = {ICLR},
+  year    = {2024}
 }
 ```
 
