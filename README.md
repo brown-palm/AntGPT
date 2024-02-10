@@ -76,9 +76,8 @@ You can use the feature extraction file under transformer_models to extract the 
 python -m transformer_models.generate_clip_img_embedding
 ```
 
-## On Brown CCV
+## Data Folder structure
 
-Most features are linked or pointed to the feature directory in the codebase already. Ensure the data folder structure is like this.
 ```
 data
 ├── ego4d 
@@ -97,7 +96,7 @@ data
 |   │   ├── EPIC_many_shot_verbs.csv
 │   │   ├── ...
 │   │
-│   └── data_full  # (EK55)
+│   └── clips
 │       ├── rgb
 │       ├── obj
 │       └── flow
@@ -107,12 +106,11 @@ data
 |   │   ├── action_list_t+v.csv
 │   │   ├── ...
 │   │
-│   └── data_full
-│       ├── rgb
-│       ├── obj
-│       └── flow
+│   └── clips
+│       ├── OP01-R01-PastaSalad.mp4
+│       ├── ...
 │
-└── text_features
+└── goal_features
     ├── ego4d_feature_gt_val.pkl 
     ├── ...
 
