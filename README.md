@@ -67,7 +67,7 @@ Download EGTEA GAZE+ dataset from [here](https://cbs.ic.gatech.edu/fpv/). <br>
 Download data annotations from [EGO-TOPO](https://github.com/facebookresearch/ego-topo/tree/main). Please refer to their instructions. 
 
 ## Preprocessed Files 
-You can find our preprocessed file including text prompts, goal features, etc [here].(https://drive.google.com/drive/folders/1dPxJyAVBmd5k9i5fYnSoDFRGKY_wsRwN) After downloaded both folders, place the goal_features under data folder. Unzip the dataset folder and place under Llama2_models folder.
+You can find our preprocessed file including text prompts, goal features, etc [here](https://drive.google.com/drive/folders/1dPxJyAVBmd5k9i5fYnSoDFRGKY_wsRwN). After downloaded both folders, place the goal_features under data folder. Unzip the dataset folder and place under Llama2_models folder.
 
 ## Features
 We used [CLIP](https://github.com/openai/CLIP) to extract features from these datasets.
@@ -76,7 +76,7 @@ You can use the feature extraction file under transformer_models to extract the 
 python -m transformer_models.generate_clip_img_embedding
 ```
 
-## Data Folder structure
+## Data Folder Structure
 
 ```
 data
