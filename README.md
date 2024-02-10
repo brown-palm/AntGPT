@@ -54,7 +54,10 @@ pip install -r requirements.txt
 
 # Prepare Data 
 
-In our experiments, we used data from Ego4D, Epic-Kitchens-55, and EGTEA GAZE+. For Epic-Kitchens-55 and EGTEA GAZE+, we also used the data annotation and splits of EGO-TOPO. 
+In our experiments, we used data from Ego4D, Epic-Kitchens-55, and EGTEA GAZE+. For Epic-Kitchens-55 and EGTEA GAZE+, we also used the data annotation and splits of EGO-TOPO. First start a data folder in the root directory.
+```bash
+mkdir data
+```
 
 ## Datasets
 
@@ -62,7 +65,10 @@ Download Ego4D dataset, annotations and pretrained models from [here](https://gi
 Download Epic-Kitchens 55 [dataset](https://github.com/epic-kitchens/epic-kitchens-download-scripts) and [annotations](https://github.com/epic-kitchens/epic-kitchens-55-annotations). <br>
 Download EGTEA GAZE+ dataset from [here](https://cbs.ic.gatech.edu/fpv/). <br>
 Download data annotations from [EGO-TOPO](https://github.com/facebookresearch/ego-topo/tree/main). Please refer to their instructions. 
- 
+
+## Preprocessed Files 
+You can find our preprocessed file including text prompts, goal features, etc [here].(https://drive.google.com/drive/folders/1dPxJyAVBmd5k9i5fYnSoDFRGKY_wsRwN) After downloaded both folders, place the goal_features under data folder. Unzip the dataset folder and place under Llama2_models folder.
+
 ## Features
 We used [CLIP](https://github.com/openai/CLIP) to extract features from these datasets.
 You can use the feature extraction file under transformer_models to extract the features.
@@ -133,7 +139,7 @@ Our paper is available on [Arxiv](https://arxiv.org/abs/2307.16368). If you find
 ```bibtex
 @article{zhao2023antgpt,
   title   = {AntGPT: Can Large Language Models Help Long-term Action Anticipation from Videos?},
-  author  = {Qi Zhao and Shijie Wang and Ce Zhang and Changcheng Fu and Nakul Agarwal and Kwonjoon Lee and Chen Sun},
+  author  = {Qi Zhao and Shijie Wang and Ce Zhang and Changcheng Fu and Min Quan Do and Nakul Agarwal and Kwonjoon Lee and Chen Sun},
   journal = {ICLR},
   year    = {2024}
 }
