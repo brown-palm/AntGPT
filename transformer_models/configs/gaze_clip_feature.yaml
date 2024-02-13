@@ -23,7 +23,7 @@ data:
   strict: False
   image:
     fps: 24.0
-    base_path: /gpfs/data/csun45/cfu17/GLIP_temp/output_CLIP_img_embedding_gaze
+    base_path: data/output_CLIP_img_embedding_gaze
     split: 30000
     num_images_per_segment: 4
     input_segments: [0, 1]

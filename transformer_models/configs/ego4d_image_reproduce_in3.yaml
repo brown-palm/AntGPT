@@ -23,7 +23,7 @@ data:
   input_from_annotated_segments: True
   image:
     fps: 30.0
-    base_path: /gpfs/data/csun45/cfu17/GLIP_temp/output_CLIP_img_embedding_kmeans_ego4d
+    base_path: data/output_CLIP_img_embedding_ego4d
     num_images_per_segment: 4
     input_segments: [-3, 0]
 model:

@@ -22,7 +22,7 @@ data:
   input_segments: [-8, 0]
   input_from_annotated_segments: True
   use_gt_text: True
-  prediction_path: '/gpfs/data/csun45/czhan164/recognition/ego4dv1/recognition_image_clip_lr1e-2_pos0.3/val/submit.json'
+  prediction_path: data/recognition/ego4dv1/val/submit.json
 model:
   base_feat_size: 512
   text_feat_size: 256

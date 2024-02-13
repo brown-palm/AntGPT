@@ -23,12 +23,12 @@ data:
   input_from_annotated_segments: True
   image:
     fps: 30.0
-    base_path: /gpfs/data/csun45/cfu17/GLIP_temp/output_CLIP_img_embedding_kmeans_ego4d
+    base_path: data/output_CLIP_img_embedding_ego4d
     num_images_per_segment: 4
     input_segments: [-8, 0]
   use_goal: True
-  train_text_feature_path: text_features/ego4d_feature_train.pkl
-  val_text_feature_path: text_features/ego4d_feature_recog_val.pkl
+  train_text_feature_path: goal_features/ego4d_feature_train.pkl
+  val_text_feature_path: goal_features/ego4d_feature_recog_val.pkl
 model:
   base_feat_size: 2048
   img_feat_size: 768

@@ -24,7 +24,7 @@ data:
   strict: False
   image:
     fps: 60.0
-    base_path: /gpfs/data/superlab/users/swang299/data/GLIP_temp_chensun/output_CLIP_img_embedding_ek55_frames_all
+    base_path: data/output_CLIP_img_embedding_ek55
     split: 0
     num_images_per_segment: 1
     input_segments: [0, 1]
@@ -34,7 +34,7 @@ multicls:
   train_Ks: [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
   val_Ks: [.25, .50, .75]
   many_shot_path: 'data/ek/annotations/EPIC_many_shot_verbs.csv'
-  text_feature_path: /gpfs/data/csun45/qzhao25/GAZE/text_features/ek_feature_gt.pkl
+  text_feature_path: data/goal_features/ek_feature_gt.pkl
 model:
   loss_fn: MultiClassBCELoss
   num_classes: [125, 5]

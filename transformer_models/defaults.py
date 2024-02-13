@@ -262,7 +262,7 @@ _C.multicls.val_Ks = []
 
 _C.multicls.max_num_segments = -1
 
-_C.multicls.text_feature_path = 'text_features/feature_gt.pkl'
+_C.multicls.text_feature_path = 'goal_features/feature_gt.pkl'
 
 # -----------------------------------------------------------------------------
 # Data options

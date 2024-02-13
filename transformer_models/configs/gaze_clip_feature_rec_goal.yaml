@@ -23,7 +23,7 @@ data:
   strict: False
   image:
     fps: 24.0
-    base_path: /gpfs/data/csun45/cfu17/GLIP_temp/output_CLIP_img_embedding_gaze
+    base_path: data/output_CLIP_img_embedding_gaze
     split: 30000
     num_images_per_segment: 4
     input_segments: [0, 1]
@@ -33,7 +33,7 @@ multicls:
   train_Ks: [.20, .30, .40, .50, .60, .70, .80]
   val_Ks: [.25, .50, .75]
   max_num_segments: 40
-  text_feature_path: text_features/gaze_feature_rec.pkl
+  text_feature_path: goal_features/gaze_feature_rec.pkl
 model:
   loss_fn: MultiClassBCELoss
   num_classes: [19, 5]

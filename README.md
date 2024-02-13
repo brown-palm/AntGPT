@@ -110,10 +110,13 @@ data
 │       ├── OP01-R01-PastaSalad.mp4
 │       ├── ...
 │
-└── goal_features
-    ├── ego4d_feature_gt_val.pkl 
-    ├── ...
-
+├── goal_features
+│    ├── ego4d_feature_gt_val.pkl 
+│    ├── ...
+│
+├── output_CLIP_img_embedding_ego4d
+│
+...
 ```
 
 # Getting Started

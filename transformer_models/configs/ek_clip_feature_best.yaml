@@ -23,7 +23,7 @@ data:
   strict: False
   image:
     fps: 60.0
-    base_path: /gpfs/data/superlab/users/swang299/data/GLIP_temp_chensun/output_CLIP_img_embedding_ek55_frames_all
+    base_path: data/output_CLIP_img_embedding_ek55
     split: 0
     num_images_per_segment: 4
     input_segments: [0, 1]
