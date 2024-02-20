@@ -18,9 +18,11 @@ AntGPT is the proposed framework in our [paper](https://arxiv.org/abs/2307.16368
 - [Prepare Data](#Prepare-Data)
   - [Datasets](#Datasets)
   - [Features](#Features)
+  - [Data Folder Structure](#Data Folder Structure)
 - [Getting Started](#Getting-Started)
   - [Transformer Experiments](#Transformer-Experiments)
-  - [Language Models Experiments](#Language-Models-Experiments)
+  - [GPT Experiments](#GPT Experiments)
+  - [Llama2 Experiments](#Llama2 Experiments)
 - [Our Paper](#Our-Paper)
 - [License](#License)
 
@@ -41,7 +43,7 @@ source venv/forecasting/bin/activate
 pip install torch==2.0.0+cu117 torchvision==0.15.1+cu117 torchaudio==2.0.1 --extra-index-url https://download.pytorch.org/whl/cu117
 ```
 
-Install CLIP
+Install CLIP.
 ```bash
 pip install git+https://github.com/openai/CLIP.git
 ```
@@ -120,7 +122,7 @@ data
 ```
 
 # Getting Started
-Our codebase consists of two part the transformer based experiments and the language model based experiments. Implementation of each modules are located in the `transformer_models` folder and `llm_models` folder respectively.
+Our codebase consists of three parts: the transformer experiments, the GPT experiments, and the Llama2 experiments. Implementation of each modules are located in the `transformer_models` folder, `GPT_models`, and `Llama2_models` folder respectively.
 
 ### Transformer Experiments
 
@@ -130,9 +132,14 @@ To run a transformer based experiment, please use the following command from the
 python -m transformer_models.run --cfg transformer_models/configs/ek_clip_feature_best.yaml --exp_name ek_lta/clip_feature
 ```
 
-### Language Models Experiments
+### GPT Experiments
 
-To run a LLM based experiment, please use one of the workflow illustration [notebooks](llm_models/Finetuning/workflow_illustration.ipynb).
+To run a GPT experiment, please use one of the workflow illustration [notebooks](llm_models/Finetuning/workflow_illustration.ipynb).
+
+
+### Llama2 Experiments
+
+To run a Llama2 experiment, please refer to the instructions in that folder.
 
 # Our Paper 
 
@@ -148,4 +155,4 @@ Our paper is available on [Arxiv](https://arxiv.org/abs/2307.16368). If you find
 
 # License
 
-This project is released under the [TBD] license.
+This project is released under the MIT license.
