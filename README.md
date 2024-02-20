@@ -2,8 +2,10 @@
 
 # AntGPT: Can Large Language Models Help Long-term Action Anticipation from Videos?
 
+ICLR2024
+
 [[Website]](https://brown-palm.github.io/AntGPT/)
-[[Arxiv Paper]](https://arxiv.org/abs/2307.16368)
+[[Arxiv]](https://arxiv.org/abs/2307.16368)
 [[PDF]](https://arxiv.org/pdf/2307.16368.pdf)
 
 ![](assets/main.gif)

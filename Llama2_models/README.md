@@ -1,5 +1,3 @@
-# AntGPT-Llama2
-
 + For Ego4D-LTA:
   ```
   # PEFT:
