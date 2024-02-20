@@ -81,7 +81,7 @@ python -m transformer_models.generate_clip_img_embedding
 ```
 
 ## Data Folder Structure
-
+We have a data folder structure like illustrated below. Feel free to use your own setup and remember to adjust the path configs accordingly.
 ```
 data
 ├── ego4d 
