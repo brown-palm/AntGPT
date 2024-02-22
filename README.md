@@ -63,24 +63,28 @@ In our experiments, we used data from Ego4D, Epic-Kitchens-55, and EGTEA GAZE+. 
 mkdir data
 ```
 
-## Datasets
+### Datasets
 
 Download Ego4D dataset, annotations and pretrained models from [here](https://github.com/EGO4D/forecasting). <br>
 Download Epic-Kitchens 55 [dataset](https://github.com/epic-kitchens/epic-kitchens-download-scripts) and [annotations](https://github.com/epic-kitchens/epic-kitchens-55-annotations). <br>
 Download EGTEA GAZE+ dataset from [here](https://cbs.ic.gatech.edu/fpv/). <br>
 Download data annotations from [EGO-TOPO](https://github.com/facebookresearch/ego-topo/tree/main). Please refer to their instructions. 
 
-## Preprocessed Files 
-You can find our preprocessed file including text prompts, goal features, etc [here](https://drive.google.com/drive/folders/1dPxJyAVBmd5k9i5fYnSoDFRGKY_wsRwN). After downloaded both folders, place the goal_features under data folder. Unzip the dataset folder and place under Llama2_models folder and make a symlink in the ICL subfolder.
+### Preprocessed Files 
+You can find our preprocessed file including text prompts, goal features, etc [here](https://drive.google.com/drive/folders/1dPxJyAVBmd5k9i5fYnSoDFRGKY_wsRwN). 
+Downloaded and unzip both folders.
+Place the `goal_features` under `data` folder.
+Place the `dataset` folder under `Llama2_models` folder.
+Make a symlink in the `ICL` subfolder of the `Llama2_models` folder.
 
-## Features
+### Features
 We used [CLIP](https://github.com/openai/CLIP) to extract features from these datasets.
 You can use the feature extraction file under transformer_models to extract the features.
 ```bash
 python -m transformer_models.generate_clip_img_embedding
 ```
 
-## Data Folder Structure
+### Data Folder Structure
 We have a data folder structure like illustrated below. Feel free to use your own setup and remember to adjust the path configs accordingly.
 ```
 data
@@ -123,15 +127,30 @@ data
 ...
 ```
 
-# Getting Started
+# Running Experiments
 Our codebase consists of three parts: the transformer experiments, the GPT experiments, and the Llama2 experiments. Implementation of each modules are located in the `transformer_models` folder, `GPT_models`, and `Llama2_models` folder respectively.
 
-### Transformer Experiments
+### Download Outputs and Checkpoints
+You can find our model checkpoints and output files for Ego4D LTA [here].
+Unzip both folders.
+Place the `ckpt` folder under the `llama_recipe` subfolder of the `Llama2_models` folder.
+Place the `ego4d_outputs` folder under the `llama_recipe` subfolder of the `Llama2_models` folder.
 
-To run a transformer based experiment, please use the following command from the root directory
+### Evalutation on Ego4D LTA
+Submit the output files to [leaderboard](https://eval.ai/web/challenges/challenge-page/1598/leaderboard).
+
+### Inference on Ego4D LTA
+```bash
+cd Llama2_models
+
+CUDA_VISIBLE_DEVICES=0 python inference/inference_lta.py --model_name {your llama checkpoint path} --peft_model {pretrained model path} --prompt_file ../dataset/test_nseg8_recog_egovlp.jsonl --response_path {output file path}
+```
+
+### Transformer Experiments
+To run an experiment on the transformer models, please use the following command
 
 ```bash
-python -m transformer_models.run --cfg transformer_models/configs/ek_clip_feature_best.yaml --exp_name ek_lta/clip_feature
+python -m transformer_models.run --cfg transformer_models/configs/ego4d_image_pred_in8.yaml --exp_name ego4d_lta/clip_feature_in8
 ```
 
 ### GPT Experiments

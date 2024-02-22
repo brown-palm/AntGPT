@@ -12,6 +12,7 @@ from ft_datasets import (
     get_ego4d_lta_dataset,
     get_ek_dataset,
     get_vis_ego4d_lta_dataset,
+    get_vis_ego4d_proj_dataset,
 )
 from typing import Optional
 
@@ -25,9 +26,13 @@ DATASET_PREPROC = {
     "ego4d_v1_aug": get_ego4d_lta_dataset,
     "ego4d_v2_aug": get_ego4d_lta_dataset,
     "ego4d_v1_recog": get_ego4d_lta_dataset,
+    "ego4d_v1_aug_egovlp": get_ego4d_lta_dataset,
     "ego4d_v2_recog": get_ego4d_lta_dataset,
+    "ego4d_v2_recog_egovlp": get_ego4d_lta_dataset,
     "ego4d_v2_3in1": get_ego4d_lta_dataset,
     "ego4d_v2_aug_egovlp": get_ego4d_lta_dataset,
+    "ego4d_v2_shuffle": get_ego4d_lta_dataset,
+    "ego4d_v2_aug_shuffle": get_ego4d_lta_dataset,
     "idx_ego4d_v1": get_ego4d_lta_dataset,
     "idx_ego4d_v2": get_ego4d_lta_dataset,
     "idx_ego4d_v1_aug": get_ego4d_lta_dataset,
@@ -43,11 +48,18 @@ DATASET_PREPROC = {
     "vis_ego4d_v1": get_vis_ego4d_lta_dataset,
     "vis_ego4d_v1_recog": get_vis_ego4d_lta_dataset,
     "vis_ego4d_v1_aug": get_vis_ego4d_lta_dataset,
+    "vis_ego4d_v2": get_vis_ego4d_lta_dataset,
+    "vis_ego4d_v2_recog": get_vis_ego4d_lta_dataset,
+    "vis_ego4d_v2_aug": get_vis_ego4d_lta_dataset,
+    "vis_ego4d_v2_aug_caption": get_vis_ego4d_lta_dataset,
+    "vis_ego4d_v2_aug_caption_only": get_vis_ego4d_lta_dataset,
+    "proj_ego4d_v1": get_vis_ego4d_proj_dataset,
+    "proj_ego4d_v2": get_vis_ego4d_proj_dataset,
 }
 
 
 def get_preprocessed_dataset(
-    tokenizer, dataset_config, split: str = "train", use_goal: Optional[bool] = False
+    tokenizer, dataset_config, split: str = "train", use_goal: Optional[bool] = False, use_vis: Optional[bool] = False, pure_vis: Optional[bool] = False
 ) -> torch.utils.data.Dataset:
     if not dataset_config.dataset in DATASET_PREPROC:
         raise NotImplementedError(f"{dataset_config.dataset} is not (yet) implemented")
@@ -59,12 +71,28 @@ def get_preprocessed_dataset(
             else dataset_config.test_split
         )
     if 'ego4d' in dataset_config.dataset:
-        return DATASET_PREPROC[dataset_config.dataset](
-            dataset_config,
-            tokenizer,
-            get_split(),
-            use_goal,
-        )
+        if 'vis' in dataset_config.dataset:
+            return DATASET_PREPROC[dataset_config.dataset](
+                dataset_config,
+                tokenizer,
+                get_split(),
+                use_vis=use_vis,
+                pure_vis=pure_vis,
+            )
+        elif 'proj' in dataset_config.dataset:
+            return DATASET_PREPROC[dataset_config.dataset](
+                dataset_config,
+                tokenizer,
+                get_split(),
+            )
+        else:
+            return DATASET_PREPROC[dataset_config.dataset](
+                dataset_config,
+                tokenizer,
+                get_split(),
+                use_goal=use_goal,
+            )
+    
     else:
         return DATASET_PREPROC[dataset_config.dataset](
             dataset_config,

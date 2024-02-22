@@ -320,6 +320,184 @@ def train_distill(student_model, teacher_model, train_dataloader,eval_dataloader
         save_non_fsdp_train_params(train_config)
     return results
 
+def train_proj(model, train_dataloader,eval_dataloader, tokenizer, optimizer, lr_scheduler, gradient_accumulation_steps, train_config, fsdp_config=None, local_rank=None, rank=None):
+    """
+    Trains the model on the given dataloader
+    
+    Args:
+        model: The model to be trained
+        train_dataloader: The dataloader containing the training data
+        optimizer: The optimizer used for training
+        lr_scheduler: The learning rate scheduler
+        gradient_accumulation_steps: The number of steps to accumulate gradients before performing a backward/update operation
+        num_epochs: The number of epochs to train for
+        local_rank: The rank of the current node in a distributed setting
+        train_config: The training configuration
+        eval_dataloader: The dataloader containing the eval data
+        tokenizer: tokenizer used in the eval for decoding the predicitons
+    
+    Returns: results dictionary containing average training and validation perplexity and loss
+    """
+    # Create a gradient scaler for fp16
+    if train_config.use_fp16 and train_config.enable_fsdp:
+        scaler = ShardedGradScaler()
+    elif train_config.use_fp16 and not train_config.enable_fsdp:
+        scaler = torch.cuda.amp.GradScaler() 
+    if train_config.enable_fsdp:
+        world_size = int(os.environ["WORLD_SIZE"]) 
+    train_prep = []
+    train_loss = []
+    val_prep = []
+    val_loss =[]
+    epoch_times = []
+    checkpoint_times = []
+    results = {}
+    best_val_loss = float("inf")
+    for epoch in range(train_config.num_epochs):
+        epoch_start_time = time.perf_counter()
+        with MemoryTrace() as memtrace:  # track the memory usage
+            model.train()
+            total_loss = 0.0
+            total_length = len(train_dataloader)//gradient_accumulation_steps
+            pbar = tqdm(colour="blue", desc=f"Training Epoch: {epoch}", total=total_length)
+            for step, batch in enumerate(train_dataloader):
+                for key in batch.keys():
+                    if train_config.enable_fsdp:
+                        batch[key] = batch[key].to(local_rank)
+                    else:
+                        batch[key] = batch[key].to('cuda:0')   
+                outputs = model(**batch)
+
+                if train_config.gen_during_training:
+                    if step % 1 == 0:
+                        model.eval()
+                        gen_outputs = model.generate(**batch, max_new_tokens=200)
+                        output_text = tokenizer.decode(gen_outputs[0], skip_special_tokens=True).split(": ")[-1]
+                        label = batch['labels'][0]
+                        # only keep elements not -100
+                        label = label[label != -100]
+                        label = tokenizer.decode(label, skip_special_tokens=True)
+                        print(f"Label: {label}")
+                        print(output_text)
+                        model.train()
+                
+                loss = outputs.loss
+                loss = loss / gradient_accumulation_steps
+                total_loss += loss.detach().float()
+                if train_config.use_fp16:
+                    # if fp16 is enabled, use gradient scaler to handle gradient update
+                    scaler.scale(loss).backward()
+                    if (step + 1) % gradient_accumulation_steps == 0 or step == len(train_dataloader) - 1:
+                        scaler.step(optimizer)
+                        scaler.update()
+                        optimizer.zero_grad()
+                        pbar.update(gradient_accumulation_steps)
+                else:
+                    # regular backpropagation when fp16 is not used
+                    loss.backward()
+                    if (step + 1) % gradient_accumulation_steps == 0 or step == len(train_dataloader) - 1:
+                        optimizer.step()
+                        optimizer.zero_grad()
+                        pbar.update(gradient_accumulation_steps)
+                pbar.set_description(f"Training Epoch: {epoch}/{train_config.num_epochs}, step {step}/{len(train_dataloader)} completed (loss: {loss.detach().float()})")
+        epoch_end_time = time.perf_counter()-epoch_start_time
+        epoch_times.append(epoch_end_time)    
+        # Reducing total_loss across all devices if there's more than one CUDA device
+        if torch.cuda.device_count() > 1 and train_config.enable_fsdp:
+            dist.all_reduce(total_loss, op=dist.ReduceOp.SUM)
+        train_epoch_loss = total_loss / len(train_dataloader)
+        if train_config.enable_fsdp:
+            train_epoch_loss = train_epoch_loss/world_size
+        train_perplexity = torch.exp(train_epoch_loss)
+        
+        train_prep.append(train_perplexity)
+        train_loss.append(train_epoch_loss)
+        
+        if train_config.enable_fsdp:
+            if rank==0:
+                print(f"Max CUDA memory allocated was {memtrace.peak} GB")
+                print(f"Max CUDA memory reserved was {memtrace.max_reserved} GB")
+                print(f"Peak active CUDA memory was {memtrace.peak_active_gb} GB")
+                print(f"Cuda Malloc retires : {memtrace.cuda_malloc_retires}")
+                print(f"CPU Total Peak Memory consumed during the train (max): {memtrace.cpu_peaked + memtrace.cpu_begin} GB")
+        else:
+            print(f"Max CUDA memory allocated was {memtrace.peak} GB")
+            print(f"Max CUDA memory reserved was {memtrace.max_reserved} GB")
+            print(f"Peak active CUDA memory was {memtrace.peak_active_gb} GB")
+            print(f"Cuda Malloc retires : {memtrace.cuda_malloc_retires}")
+            print(f"CPU Total Peak Memory consumed during the train (max): {memtrace.cpu_peaked + memtrace.cpu_begin} GB")
+        
+        # Update the learning rate as needed
+        lr_scheduler.step()
+          
+        if train_config.run_validation:
+            eval_ppl, eval_epoch_loss = evaluation(model, train_config, eval_dataloader, local_rank, tokenizer)
+            checkpoint_start_time = time.perf_counter()
+            if train_config.save_model and eval_epoch_loss < best_val_loss:
+                if train_config.enable_fsdp:
+                    dist.barrier()
+                # create save path
+                save_dir = train_config.output_dir
+                if not os.path.exists(save_dir):
+                    os.makedirs(save_dir)
+                save_path = os.path.join(save_dir, str(epoch) + ".pt")
+                torch.save(model.proj.state_dict(), save_path)
+                if train_config.enable_fsdp:
+                    dist.barrier()
+            checkpoint_end_time = time.perf_counter() - checkpoint_start_time
+            checkpoint_times.append(checkpoint_end_time)
+            if eval_epoch_loss < best_val_loss:
+                best_val_loss = eval_epoch_loss
+                if train_config.enable_fsdp:
+                    if rank==0:
+                        print(f"best eval loss on epoch {epoch} is {best_val_loss}")
+                else:
+                    print(f"best eval loss on epoch {epoch} is {best_val_loss}")
+            val_loss.append(best_val_loss)
+            val_prep.append(eval_ppl)
+        else:                
+            checkpoint_start_time = time.perf_counter()
+            if train_config.save_model:
+                if train_config.enable_fsdp:
+                    dist.barrier()
+                # create save path
+                save_dir = train_config.output_dir
+                if not os.path.exists(save_dir):
+                    os.makedirs(save_dir)
+                save_path = os.path.join(save_dir, str(epoch) + ".pt")
+                torch.save(model.proj.state_dict(), save_path)
+                if train_config.enable_fsdp:
+                    dist.barrier()
+            checkpoint_end_time = time.perf_counter() - checkpoint_start_time
+            checkpoint_times.append(checkpoint_end_time)
+        if train_config.enable_fsdp:
+            if rank==0:
+                print(f"Epoch {epoch+1}: train_perplexity={train_perplexity:.4f}, train_epoch_loss={train_epoch_loss:.4f}, epcoh time {epoch_end_time}s")
+        else:
+            print(f"Epoch {epoch+1}: train_perplexity={train_perplexity:.4f}, train_epoch_loss={train_epoch_loss:.4f}, epcoh time {epoch_end_time}s")
+    avg_epoch_time = sum(epoch_times)/ len(epoch_times) 
+    avg_checkpoint_time = sum(checkpoint_times)/ len(checkpoint_times)   
+    avg_train_prep = sum(train_prep)/len(train_prep)
+    avg_train_loss = sum(train_loss)/len(train_loss)
+    if train_config.run_validation:
+        avg_eval_prep = sum(val_prep)/len(val_prep) 
+        avg_eval_loss = sum(val_loss)/len(val_loss) 
+
+    results['avg_train_prep'] = avg_train_prep
+    results['avg_train_loss'] = avg_train_loss
+    if train_config.run_validation:
+        results['avg_eval_prep'] = avg_eval_prep
+        results['avg_eval_loss'] = avg_eval_loss
+    results["avg_epoch_time"] = avg_epoch_time
+    results["avg_checkpoint_time"] = avg_checkpoint_time
+    
+    #saving the training params including fsdp setting for reference.
+    if train_config.enable_fsdp and not train_config.use_peft:
+        save_train_params(train_config, fsdp_config, rank)
+    elif not train_config.use_peft and not train_config.enable_fsdp:
+        save_non_fsdp_train_params(train_config)
+    return results
+
 
 def train(model, train_dataloader,eval_dataloader, tokenizer, optimizer, lr_scheduler, gradient_accumulation_steps, train_config, fsdp_config=None, local_rank=None, rank=None):
     """
@@ -369,13 +547,13 @@ def train(model, train_dataloader,eval_dataloader, tokenizer, optimizer, lr_sche
                         batch[key] = batch[key].to('cuda:0')   
                 outputs = model(**batch)
 
-                if step % 10 == 0:
-                    model.eval()
-                    gen_outputs = model.generate(**batch)
-                    for jj in range(len(gen_outputs)):
-                        output_text = tokenizer.decode(gen_outputs[jj], skip_special_tokens=True).split("### Next 20 actions: ")[-1]
+                if train_config.gen_during_training:
+                    if step % 1 == 0:
+                        model.eval()
+                        gen_outputs = model.generate(**batch, max_new_tokens=200)
+                        output_text = tokenizer.decode(gen_outputs[0], skip_special_tokens=True).split(": ")[-1]
                         print(output_text)
-                    model.train()
+                        model.train()
                 
                 loss = outputs.loss
                 loss = loss / gradient_accumulation_steps
@@ -438,10 +616,8 @@ def train(model, train_dataloader,eval_dataloader, tokenizer, optimizer, lr_sche
                             print(f"we are about to save the PEFT modules")
                     else:
                         print(f"we are about to save the PEFT modules")
-                    # check if the model is a VisLlama
-                    if isinstance(model, LlamaForCausalLM):
-                        model.save_pretrained(os.path.join(train_config.output_dir, str(epoch)))
-                    else:
+                    # check if llama is in the model
+                    if model.__class__.__name__ == "VisLlama":
                         print(f"save PEFT modules")
                         model.llama.save_pretrained(os.path.join(train_config.output_dir, str(epoch)))
                         # create save path
@@ -450,7 +626,9 @@ def train(model, train_dataloader,eval_dataloader, tokenizer, optimizer, lr_sche
                             os.makedirs(save_dir)
                         # save model
                         torch.save(model.proj.state_dict(), save_dir + "/proj.pt")
-                        torch.save(model.embed_tokens.state_dict(), save_dir + "/embed_tokens.pt")
+                        torch.save(model.llama.model.model.embed_tokens.state_dict(), save_dir + "/embed_tokens.pt")
+                    else:
+                        model.save_pretrained(os.path.join(train_config.output_dir, str(epoch)))
                     if train_config.enable_fsdp:
                         if rank==0: 
                             print(f"PEFT modules are saved in {train_config.output_dir} directory")
@@ -515,10 +693,8 @@ def train(model, train_dataloader,eval_dataloader, tokenizer, optimizer, lr_sche
                             print(f"we are about to save the PEFT modules")
                     else:
                         print(f"we are about to save the PEFT modules")
-                    # check if the model is a VisLlama
-                    if isinstance(model, LlamaForCausalLM):
-                        model.save_pretrained(os.path.join(train_config.output_dir, str(epoch)))
-                    else:
+                    # check if llama is in the model
+                    if model.__class__.__name__ == "VisLlama":
                         print(f"save PEFT modules")
                         model.llama.save_pretrained(os.path.join(train_config.output_dir, str(epoch)))
                         # create save path
@@ -527,7 +703,9 @@ def train(model, train_dataloader,eval_dataloader, tokenizer, optimizer, lr_sche
                             os.makedirs(save_dir)
                         # save model
                         torch.save(model.proj.state_dict(), save_dir + "/proj.pt")
-                        torch.save(model.embed_tokens.state_dict(), save_dir + "/embed_tokens.pt")
+                        torch.save(model.llama.model.model.embed_tokens.state_dict(), save_dir + "/embed_tokens.pt")
+                    else:
+                        model.save_pretrained(os.path.join(train_config.output_dir, str(epoch)))
                     if train_config.enable_fsdp:
                         if rank==0: 
                             print(f"PEFT modules are saved in {train_config.output_dir} directory")

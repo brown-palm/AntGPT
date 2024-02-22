@@ -3,13 +3,6 @@
 pip install pandas editdistance rapidfuzz openai
 ```
 
-# Dataset
-+ `fho_lta_taxonomy.json`: the official index2word dictionary provided by openai
-+ `train_words_nseg8.jsonl`: sample raw data file sampled from Ego4d annotations
-+ `val_words_nseg8.jsonl`: sample raw data file sampled from Ego4d annotations.
-+ `train_nseg8.jsonl`: sample fine-tuning dataset with nseg=8, "prompt" correspond to ground-truth history actions, "completion" corresponds to ground-truth prediction.
-+ `val_nseg8.jsonl`: sample fine-tuning dataset with nseg=8, "prompt" correspond to ground-truth history actions, "completion" corresponds to ground-truth prediction.
-
 # Scripts
 
 + `preprocessing.py`: building the dictionaries, remove synonyms.

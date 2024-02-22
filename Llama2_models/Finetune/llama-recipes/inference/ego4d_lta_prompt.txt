@@ -1,0 +1,5 @@
+Predict the next most possible 20 actions in the format of verb noun pair in chronological order that match the given observed 8 actions and common sense most. Below is the observed 8 actions.
+
+### Observed actions: drive grass, pull mower, cut grass, turn mower, pull mower, pull mower, cut grass, cut grass
+
+### Prediction: 
