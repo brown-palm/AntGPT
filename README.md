@@ -21,7 +21,10 @@ AntGPT is the proposed framework in our [paper](https://arxiv.org/abs/2307.16368
   - [Datasets](#Datasets)
   - [Features](#Features)
   - [Data Folder Structure](#Data-Folder-Structure)
-- [Getting Started](#Getting-Started)
+- [Running Experiments](#Running-Experiments)
+  - [Download Outputs and Checkpoints](#Download-Outputs-and-Checkpoints)
+  - [Evalutation on Ego4D LTA](#Evalutation-on-Ego4D-LTA)
+  - [Inference on Ego4D LTA](#Inference-on-Ego4D-LTA)
   - [Transformer Experiments](#Transformer-Experiments)
   - [GPT Experiments](#GPT-Experiments)
   - [Llama2 Experiments](#Llama2-Experiments)
@@ -55,6 +58,8 @@ Install other packages.
 ```bash
 pip install -r requirements.txt 
 ```
+
+Install llama-recipe packages following instructions [here](https://github.com/facebookresearch/llama-recipes).
 
 # Prepare Data 
 
@@ -131,7 +136,7 @@ data
 Our codebase consists of three parts: the transformer experiments, the GPT experiments, and the Llama2 experiments. Implementation of each modules are located in the `transformer_models` folder, `GPT_models`, and `Llama2_models` folder respectively.
 
 ### Download Outputs and Checkpoints
-You can find our model checkpoints and output files for Ego4D LTA [here].
+You can find our model checkpoints and output files for Ego4D LTA [here](https://drive.google.com/drive/folders/1dPxJyAVBmd5k9i5fYnSoDFRGKY_wsRwN).
 Unzip both folders.
 Place the `ckpt` folder under the `llama_recipe` subfolder of the `Llama2_models` folder.
 Place the `ego4d_outputs` folder under the `llama_recipe` subfolder of the `Llama2_models` folder.
