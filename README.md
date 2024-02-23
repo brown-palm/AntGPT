@@ -82,14 +82,14 @@ Place the `goal_features` under `data` folder.
 Place the `dataset` folder under `Llama2_models` folder.
 Make a symlink in the `ICL` subfolder of the `Llama2_models` folder.
 ```bash
-python -m transformer_models.generate_clip_img_embedding
+ln -s {path_to_dataset} AntGPT/Llama2_models/ICL
 ```
 
 ### Features
 We used [CLIP](https://github.com/openai/CLIP) to extract features from these datasets.
 You can use the feature extraction file under transformer_models to extract the features.
 ```bash
-ln -s {path_to_dataset} AntGPT/Llama2_models/ICL
+python -m transformer_models.generate_clip_img_embedding
 ```
 
 ### Data Folder Structure
