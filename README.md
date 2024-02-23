@@ -149,7 +149,7 @@ Submit the output files to [leaderboard](https://eval.ai/web/challenges/challeng
 
 ### Inference on Ego4D LTA
 ```bash
-cd Llama2_models/Finetune
+cd Llama2_models/Finetune/llama-recipes
 ```
 ```bash
 CUDA_VISIBLE_DEVICES=0 python inference/inference_lta.py --model_name {your llama checkpoint path} --peft_model {pretrained model path} --prompt_file ../dataset/test_nseg8_recog_egovlp.jsonl --response_path {output file path}
