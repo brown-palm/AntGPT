@@ -139,9 +139,9 @@ data
 Our codebase consists of three parts: the transformer experiments, the GPT experiments, and the Llama2 experiments. Implementation of each modules are located in the `transformer_models` folder, `GPT_models`, and `Llama2_models` folder respectively.
 
 ### Download Outputs and Checkpoints
-You can find our model checkpoints and output files for Ego4D LTA [here](https://drive.google.com/drive/folders/1dPxJyAVBmd5k9i5fYnSoDFRGKY_wsRwN).
-Unzip both folders.
-Place the `ckpt` folder under the `llama_recipe` subfolder of the `Llama2_models` folder.
+You can find our model checkpoints and output files for Ego4D LTA [here](https://drive.google.com/drive/folders/1dPxJyAVBmd5k9i5fYnSoDFRGKY_wsRwN). <br>
+Unzip both folders. <br>
+Place the `ckpt` folder under the `llama_recipe` subfolder of the `Llama2_models` folder. <br>
 Place the `ego4d_outputs` folder under the `llama_recipe` subfolder of the `Llama2_models` folder.
 
 ### Evalutation on Ego4D LTA
