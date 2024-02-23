@@ -76,10 +76,10 @@ Download EGTEA GAZE+ dataset from [here](https://cbs.ic.gatech.edu/fpv/). <br>
 Download data annotations from [EGO-TOPO](https://github.com/facebookresearch/ego-topo/tree/main). Please refer to their instructions. 
 
 ### Preprocessed Files 
-You can find our preprocessed file including text prompts, goal features, etc [here](https://drive.google.com/drive/folders/1dPxJyAVBmd5k9i5fYnSoDFRGKY_wsRwN). 
-Downloaded and unzip both folders.
-Place the `goal_features` under `data` folder.
-Place the `dataset` folder under `Llama2_models` folder.
+You can find our preprocessed file including text prompts, goal features, etc [here](https://drive.google.com/drive/folders/1dPxJyAVBmd5k9i5fYnSoDFRGKY_wsRwN). <br>
+Downloaded and unzip both folders. <br>
+Place the `goal_features` under `data` folder. <br>
+Place the `dataset` folder under `Llama2_models` folder. <br>
 Make a symlink in the `ICL` subfolder of the `Llama2_models` folder.
 ```bash
 ln -s {path_to_dataset} AntGPT/Llama2_models/ICL
