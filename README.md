@@ -81,12 +81,15 @@ Downloaded and unzip both folders.
 Place the `goal_features` under `data` folder.
 Place the `dataset` folder under `Llama2_models` folder.
 Make a symlink in the `ICL` subfolder of the `Llama2_models` folder.
+```bash
+python -m transformer_models.generate_clip_img_embedding
+```
 
 ### Features
 We used [CLIP](https://github.com/openai/CLIP) to extract features from these datasets.
 You can use the feature extraction file under transformer_models to extract the features.
 ```bash
-python -m transformer_models.generate_clip_img_embedding
+ln -s {path_to_dataset} AntGPT/Llama2_models/ICL
 ```
 
 ### Data Folder Structure
@@ -174,7 +177,7 @@ Our paper is available on [Arxiv](https://arxiv.org/abs/2307.16368). If you find
 ```bibtex
 @article{zhao2023antgpt,
   title   = {AntGPT: Can Large Language Models Help Long-term Action Anticipation from Videos?},
-  author  = {Qi Zhao and Shijie Wang and Ce Zhang and Changcheng Fu and Min Quan Do and Nakul Agarwal and Kwonjoon Lee and Chen Sun},
+  author  = {Qi Zhao and Shijie Wang and Ce Zhang and Changcheng Fu and Minh Quan Do and Nakul Agarwal and Kwonjoon Lee and Chen Sun},
   journal = {ICLR},
   year    = {2024}
 }
