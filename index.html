@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>AntGPT</title>
     <style>
@@ -8,6 +9,7 @@
             font-family: 'Roboto', sans-serif;
             font-weight: 100;
         }
+
         #title-banner {
             background-color: white;
             padding-right: 200px;
@@ -16,6 +18,7 @@
             color: black;
             text-align: center;
         }
+
         #bibtex-banner {
             margin: 20px;
             padding-top: 50px;
@@ -24,39 +27,50 @@
             padding-left: 100px;
             color: black;
         }
+
         .bibtex {
             background-color: #F5F5F5;
             padding: 20px;
         }
+
         #abstract {
             margin: 19px;
             padding-right: 300px;
             padding-left: 300px;
         }
+
         .abstract-title {
             font-size: 30px;
             text-align: center;
         }
+
         #main-visualization {
             margin: 20px;
         }
+
         figcaption {
             font-size: 12px;
-            font-style: italic; /* Italicize the caption (optional) */
-            color: #666; /* Set the color of the caption (optional) */
+            font-style: italic;
+            /* Italicize the caption (optional) */
+            color: #666;
+            /* Set the color of the caption (optional) */
         }
+
         #result-visualization {
             margin: 20px;
             padding-top: 50px;
             padding-left: 100px;
             padding-right: 100px;
         }
-        .image-row{
+
+        .image-row {
             display: flex;
             padding-right: 30px
         }
+
         .main-image {
-            width: 60%;/*120vh;*/
+            width: 60%;
+            /*120vh;*/
             background-size: cover;
             border-radius: 5px;
             display: block;
@@ -64,16 +78,20 @@
             margin-left: auto;
             margin-right: auto;
         }
+
         .interpolation-image2 {
-            width: 100%;/*120vh;*/
+            width: 100%;
+            /*120vh;*/
             background-size: cover;
             border-radius: 5px;
             /*display: block;*/
             margin-top: auto;
             margin-left: auto;
         }
+
         .interpolation-image3 {
-            height: 100%;/*120vh;*/
+            height: 100%;
+            /*120vh;*/
             width: 90%;
             background-size: cover;
             border-radius: 5px;
@@ -81,24 +99,31 @@
             margin-left: auto;
             margin-right: auto;
         }
+
         .interpolation-image4 {
-            height: 100%;/*120vh;*/
-            width: 100%;/*120vh;*/
+            height: 100%;
+            /*120vh;*/
+            width: 100%;
+            /*120vh;*/
             background-size: cover;
             border-radius: 5px;
             display: block;
             margin-left: auto;
             margin-right: auto;
         }
+
         .interpolation-image5 {
-            height: 100%;/*120vh;*/
-            width: 90%;/*120vh;*/
+            height: 100%;
+            /*120vh;*/
+            width: 90%;
+            /*120vh;*/
             background-size: cover;
             border-radius: 5px;
             display: block;
             margin-left: auto;
             margin-right: auto;
         }
+
         .button {
             background-color: blue;
             border: none;
@@ -110,28 +135,520 @@
             font-size: 16px;
             margin: 4px 2px;
             cursor: pointer;
-            border-radius: 40px; /* Rounded corners */
+            border-radius: 40px;
+            /* Rounded corners */
         }
+
         #links {
-            text-align: center; /* Center the buttons */
+            text-align: center;
+            /* Center the buttons */
         }
+
         #authors a {
             color: blue;
-            text-decoration: none; /* No underline */
+            text-decoration: none;
+            /* No underline */
         }
+
         #authors a:hover {
-            text-decoration: underline; /* Underline on hover */
+            text-decoration: underline;
+            /* Underline on hover */
         }
     </style>
-      <style type="text/css">svg:not(:root).svg-inline--fa{overflow:visible}.svg-inline--fa{display:inline-block;font-size:inherit;height:1em;overflow:visible;vertical-align:-.125em}.svg-inline--fa.fa-lg{vertical-align:-.225em}.svg-inline--fa.fa-w-1{width:.0625em}.svg-inline--fa.fa-w-2{width:.125em}.svg-inline--fa.fa-w-3{width:.1875em}.svg-inline--fa.fa-w-4{width:.25em}.svg-inline--fa.fa-w-5{width:.3125em}.svg-inline--fa.fa-w-6{width:.375em}.svg-inline--fa.fa-w-7{width:.4375em}.svg-inline--fa.fa-w-8{width:.5em}.svg-inline--fa.fa-w-9{width:.5625em}.svg-inline--fa.fa-w-10{width:.625em}.svg-inline--fa.fa-w-11{width:.6875em}.svg-inline--fa.fa-w-12{width:.75em}.svg-inline--fa.fa-w-13{width:.8125em}.svg-inline--fa.fa-w-14{width:.875em}.svg-inline--fa.fa-w-15{width:.9375em}.svg-inline--fa.fa-w-16{width:1em}.svg-inline--fa.fa-w-17{width:1.0625em}.svg-inline--fa.fa-w-18{width:1.125em}.svg-inline--fa.fa-w-19{width:1.1875em}.svg-inline--fa.fa-w-20{width:1.25em}.svg-inline--fa.fa-pull-left{margin-right:.3em;width:auto}.svg-inline--fa.fa-pull-right{margin-left:.3em;width:auto}.svg-inline--fa.fa-border{height:1.5em}.svg-inline--fa.fa-li{width:2em}.svg-inline--fa.fa-fw{width:1.25em}.fa-layers svg.svg-inline--fa{bottom:0;left:0;margin:auto;position:absolute;right:0;top:0}.fa-layers{display:inline-block;height:1em;position:relative;text-align:center;vertical-align:-.125em;width:1em}.fa-layers svg.svg-inline--fa{-webkit-transform-origin:center center;transform-origin:center center}.fa-layers-counter,.fa-layers-text{display:inline-block;position:absolute;text-align:center}.fa-layers-text{left:50%;top:50%;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%);-webkit-transform-origin:center center;transform-origin:center center}.fa-layers-counter{background-color:#ff253a;border-radius:1em;-webkit-box-sizing:border-box;box-sizing:border-box;color:#fff;height:1.5em;line-height:1;max-width:5em;min-width:1.5em;overflow:hidden;padding:.25em;right:0;text-overflow:ellipsis;top:0;-webkit-transform:scale(.25);transform:scale(.25);-webkit-transform-origin:top right;transform-origin:top right}.fa-layers-bottom-right{bottom:0;right:0;top:auto;-webkit-transform:scale(.25);transform:scale(.25);-webkit-transform-origin:bottom right;transform-origin:bottom right}.fa-layers-bottom-left{bottom:0;left:0;right:auto;top:auto;-webkit-transform:scale(.25);transform:scale(.25);-webkit-transform-origin:bottom left;transform-origin:bottom left}.fa-layers-top-right{right:0;top:0;-webkit-transform:scale(.25);transform:scale(.25);-webkit-transform-origin:top right;transform-origin:top right}.fa-layers-top-left{left:0;right:auto;top:0;-webkit-transform:scale(.25);transform:scale(.25);-webkit-transform-origin:top left;transform-origin:top left}.fa-lg{font-size:1.3333333333em;line-height:.75em;vertical-align:-.0667em}.fa-xs{font-size:.75em}.fa-sm{font-size:.875em}.fa-1x{font-size:1em}.fa-2x{font-size:2em}.fa-3x{font-size:3em}.fa-4x{font-size:4em}.fa-5x{font-size:5em}.fa-6x{font-size:6em}.fa-7x{font-size:7em}.fa-8x{font-size:8em}.fa-9x{font-size:9em}.fa-10x{font-size:10em}.fa-fw{text-align:center;width:1.25em}.fa-ul{list-style-type:none;margin-left:2.5em;padding-left:0}.fa-ul>li{position:relative}.fa-li{left:-2em;position:absolute;text-align:center;width:2em;line-height:inherit}.fa-border{border:solid .08em #eee;border-radius:.1em;padding:.2em .25em .15em}.fa-pull-left{float:left}.fa-pull-right{float:right}.fa.fa-pull-left,.fab.fa-pull-left,.fal.fa-pull-left,.far.fa-pull-left,.fas.fa-pull-left{margin-right:.3em}.fa.fa-pull-right,.fab.fa-pull-right,.fal.fa-pull-right,.far.fa-pull-right,.fas.fa-pull-right{margin-left:.3em}.fa-spin{-webkit-animation:fa-spin 2s infinite linear;animation:fa-spin 2s infinite linear}.fa-pulse{-webkit-animation:fa-spin 1s infinite steps(8);animation:fa-spin 1s infinite steps(8)}@-webkit-keyframes fa-spin{0%{-webkit-transform:rotate(0);transform:rotate(0)}100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}@keyframes fa-spin{0%{-webkit-transform:rotate(0);transform:rotate(0)}100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}.fa-rotate-90{-webkit-transform:rotate(90deg);transform:rotate(90deg)}.fa-rotate-180{-webkit-transform:rotate(180deg);transform:rotate(180deg)}.fa-rotate-270{-webkit-transform:rotate(270deg);transform:rotate(270deg)}.fa-flip-horizontal{-webkit-transform:scale(-1,1);transform:scale(-1,1)}.fa-flip-vertical{-webkit-transform:scale(1,-1);transform:scale(1,-1)}.fa-flip-both,.fa-flip-horizontal.fa-flip-vertical{-webkit-transform:scale(-1,-1);transform:scale(-1,-1)}:root .fa-flip-both,:root .fa-flip-horizontal,:root .fa-flip-vertical,:root .fa-rotate-180,:root .fa-rotate-270,:root .fa-rotate-90{-webkit-filter:none;filter:none}.fa-stack{display:inline-block;height:2em;position:relative;width:2.5em}.fa-stack-1x,.fa-stack-2x{bottom:0;left:0;margin:auto;position:absolute;right:0;top:0}.svg-inline--fa.fa-stack-1x{height:1em;width:1.25em}.svg-inline--fa.fa-stack-2x{height:2em;width:2.5em}.fa-inverse{color:#fff}.sr-only{border:0;clip:rect(0,0,0,0);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px}.sr-only-focusable:active,.sr-only-focusable:focus{clip:auto;height:auto;margin:0;overflow:visible;position:static;width:auto}.svg-inline--fa .fa-primary{fill:var(--fa-primary-color,currentColor);opacity:1;opacity:var(--fa-primary-opacity,1)}.svg-inline--fa .fa-secondary{fill:var(--fa-secondary-color,currentColor);opacity:.4;opacity:var(--fa-secondary-opacity,.4)}.svg-inline--fa.fa-swap-opacity .fa-primary{opacity:.4;opacity:var(--fa-secondary-opacity,.4)}.svg-inline--fa.fa-swap-opacity .fa-secondary{opacity:1;opacity:var(--fa-primary-opacity,1)}.svg-inline--fa mask .fa-primary,.svg-inline--fa mask .fa-secondary{fill:#000}.fad.fa-inverse{color:#fff}</style><link href="./VoxPoser_files/css" rel="stylesheet">
+    <style type="text/css">
+        svg:not(:root).svg-inline--fa {
+            overflow: visible
+        }
+
+        .svg-inline--fa {
+            display: inline-block;
+            font-size: inherit;
+            height: 1em;
+            overflow: visible;
+            vertical-align: -.125em
+        }
+
+        .svg-inline--fa.fa-lg {
+            vertical-align: -.225em
+        }
+
+        .svg-inline--fa.fa-w-1 {
+            width: .0625em
+        }
+
+        .svg-inline--fa.fa-w-2 {
+            width: .125em
+        }
+
+        .svg-inline--fa.fa-w-3 {
+            width: .1875em
+        }
+
+        .svg-inline--fa.fa-w-4 {
+            width: .25em
+        }
+
+        .svg-inline--fa.fa-w-5 {
+            width: .3125em
+        }
+
+        .svg-inline--fa.fa-w-6 {
+            width: .375em
+        }
+
+        .svg-inline--fa.fa-w-7 {
+            width: .4375em
+        }
+
+        .svg-inline--fa.fa-w-8 {
+            width: .5em
+        }
+
+        .svg-inline--fa.fa-w-9 {
+            width: .5625em
+        }
+
+        .svg-inline--fa.fa-w-10 {
+            width: .625em
+        }
+
+        .svg-inline--fa.fa-w-11 {
+            width: .6875em
+        }
+
+        .svg-inline--fa.fa-w-12 {
+            width: .75em
+        }
+
+        .svg-inline--fa.fa-w-13 {
+            width: .8125em
+        }
+
+        .svg-inline--fa.fa-w-14 {
+            width: .875em
+        }
+
+        .svg-inline--fa.fa-w-15 {
+            width: .9375em
+        }
+
+        .svg-inline--fa.fa-w-16 {
+            width: 1em
+        }
+
+        .svg-inline--fa.fa-w-17 {
+            width: 1.0625em
+        }
+
+        .svg-inline--fa.fa-w-18 {
+            width: 1.125em
+        }
+
+        .svg-inline--fa.fa-w-19 {
+            width: 1.1875em
+        }
+
+        .svg-inline--fa.fa-w-20 {
+            width: 1.25em
+        }
+
+        .svg-inline--fa.fa-pull-left {
+            margin-right: .3em;
+            width: auto
+        }
+
+        .svg-inline--fa.fa-pull-right {
+            margin-left: .3em;
+            width: auto
+        }
+
+        .svg-inline--fa.fa-border {
+            height: 1.5em
+        }
+
+        .svg-inline--fa.fa-li {
+            width: 2em
+        }
+
+        .svg-inline--fa.fa-fw {
+            width: 1.25em
+        }
+
+        .fa-layers svg.svg-inline--fa {
+            bottom: 0;
+            left: 0;
+            margin: auto;
+            position: absolute;
+            right: 0;
+            top: 0
+        }
+
+        .fa-layers {
+            display: inline-block;
+            height: 1em;
+            position: relative;
+            text-align: center;
+            vertical-align: -.125em;
+            width: 1em
+        }
+
+        .fa-layers svg.svg-inline--fa {
+            -webkit-transform-origin: center center;
+            transform-origin: center center
+        }
+
+        .fa-layers-counter,
+        .fa-layers-text {
+            display: inline-block;
+            position: absolute;
+            text-align: center
+        }
+
+        .fa-layers-text {
+            left: 50%;
+            top: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            -webkit-transform-origin: center center;
+            transform-origin: center center
+        }
+
+        .fa-layers-counter {
+            background-color: #ff253a;
+            border-radius: 1em;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            color: #fff;
+            height: 1.5em;
+            line-height: 1;
+            max-width: 5em;
+            min-width: 1.5em;
+            overflow: hidden;
+            padding: .25em;
+            right: 0;
+            text-overflow: ellipsis;
+            top: 0;
+            -webkit-transform: scale(.25);
+            transform: scale(.25);
+            -webkit-transform-origin: top right;
+            transform-origin: top right
+        }
+
+        .fa-layers-bottom-right {
+            bottom: 0;
+            right: 0;
+            top: auto;
+            -webkit-transform: scale(.25);
+            transform: scale(.25);
+            -webkit-transform-origin: bottom right;
+            transform-origin: bottom right
+        }
+
+        .fa-layers-bottom-left {
+            bottom: 0;
+            left: 0;
+            right: auto;
+            top: auto;
+            -webkit-transform: scale(.25);
+            transform: scale(.25);
+            -webkit-transform-origin: bottom left;
+            transform-origin: bottom left
+        }
+
+        .fa-layers-top-right {
+            right: 0;
+            top: 0;
+            -webkit-transform: scale(.25);
+            transform: scale(.25);
+            -webkit-transform-origin: top right;
+            transform-origin: top right
+        }
+
+        .fa-layers-top-left {
+            left: 0;
+            right: auto;
+            top: 0;
+            -webkit-transform: scale(.25);
+            transform: scale(.25);
+            -webkit-transform-origin: top left;
+            transform-origin: top left
+        }
+
+        .fa-lg {
+            font-size: 1.3333333333em;
+            line-height: .75em;
+            vertical-align: -.0667em
+        }
+
+        .fa-xs {
+            font-size: .75em
+        }
+
+        .fa-sm {
+            font-size: .875em
+        }
+
+        .fa-1x {
+            font-size: 1em
+        }
+
+        .fa-2x {
+            font-size: 2em
+        }
+
+        .fa-3x {
+            font-size: 3em
+        }
+
+        .fa-4x {
+            font-size: 4em
+        }
+
+        .fa-5x {
+            font-size: 5em
+        }
+
+        .fa-6x {
+            font-size: 6em
+        }
+
+        .fa-7x {
+            font-size: 7em
+        }
+
+        .fa-8x {
+            font-size: 8em
+        }
+
+        .fa-9x {
+            font-size: 9em
+        }
+
+        .fa-10x {
+            font-size: 10em
+        }
+
+        .fa-fw {
+            text-align: center;
+            width: 1.25em
+        }
+
+        .fa-ul {
+            list-style-type: none;
+            margin-left: 2.5em;
+            padding-left: 0
+        }
+
+        .fa-ul>li {
+            position: relative
+        }
+
+        .fa-li {
+            left: -2em;
+            position: absolute;
+            text-align: center;
+            width: 2em;
+            line-height: inherit
+        }
+
+        .fa-border {
+            border: solid .08em #eee;
+            border-radius: .1em;
+            padding: .2em .25em .15em
+        }
+
+        .fa-pull-left {
+            float: left
+        }
+
+        .fa-pull-right {
+            float: right
+        }
+
+        .fa.fa-pull-left,
+        .fab.fa-pull-left,
+        .fal.fa-pull-left,
+        .far.fa-pull-left,
+        .fas.fa-pull-left {
+            margin-right: .3em
+        }
+
+        .fa.fa-pull-right,
+        .fab.fa-pull-right,
+        .fal.fa-pull-right,
+        .far.fa-pull-right,
+        .fas.fa-pull-right {
+            margin-left: .3em
+        }
+
+        .fa-spin {
+            -webkit-animation: fa-spin 2s infinite linear;
+            animation: fa-spin 2s infinite linear
+        }
+
+        .fa-pulse {
+            -webkit-animation: fa-spin 1s infinite steps(8);
+            animation: fa-spin 1s infinite steps(8)
+        }
+
+        @-webkit-keyframes fa-spin {
+            0% {
+                -webkit-transform: rotate(0);
+                transform: rotate(0)
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg)
+            }
+        }
+
+        @keyframes fa-spin {
+            0% {
+                -webkit-transform: rotate(0);
+                transform: rotate(0)
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg)
+            }
+        }
+
+        .fa-rotate-90 {
+            -webkit-transform: rotate(90deg);
+            transform: rotate(90deg)
+        }
+
+        .fa-rotate-180 {
+            -webkit-transform: rotate(180deg);
+            transform: rotate(180deg)
+        }
+
+        .fa-rotate-270 {
+            -webkit-transform: rotate(270deg);
+            transform: rotate(270deg)
+        }
+
+        .fa-flip-horizontal {
+            -webkit-transform: scale(-1, 1);
+            transform: scale(-1, 1)
+        }
+
+        .fa-flip-vertical {
+            -webkit-transform: scale(1, -1);
+            transform: scale(1, -1)
+        }
+
+        .fa-flip-both,
+        .fa-flip-horizontal.fa-flip-vertical {
+            -webkit-transform: scale(-1, -1);
+            transform: scale(-1, -1)
+        }
+
+        :root .fa-flip-both,
+        :root .fa-flip-horizontal,
+        :root .fa-flip-vertical,
+        :root .fa-rotate-180,
+        :root .fa-rotate-270,
+        :root .fa-rotate-90 {
+            -webkit-filter: none;
+            filter: none
+        }
+
+        .fa-stack {
+            display: inline-block;
+            height: 2em;
+            position: relative;
+            width: 2.5em
+        }
+
+        .fa-stack-1x,
+        .fa-stack-2x {
+            bottom: 0;
+            left: 0;
+            margin: auto;
+            position: absolute;
+            right: 0;
+            top: 0
+        }
+
+        .svg-inline--fa.fa-stack-1x {
+            height: 1em;
+            width: 1.25em
+        }
+
+        .svg-inline--fa.fa-stack-2x {
+            height: 2em;
+            width: 2.5em
+        }
+
+        .fa-inverse {
+            color: #fff
+        }
+
+        .sr-only {
+            border: 0;
+            clip: rect(0, 0, 0, 0);
+            height: 1px;
+            margin: -1px;
+            overflow: hidden;
+            padding: 0;
+            position: absolute;
+            width: 1px
+        }
+
+        .sr-only-focusable:active,
+        .sr-only-focusable:focus {
+            clip: auto;
+            height: auto;
+            margin: 0;
+            overflow: visible;
+            position: static;
+            width: auto
+        }
+
+        .svg-inline--fa .fa-primary {
+            fill: var(--fa-primary-color, currentColor);
+            opacity: 1;
+            opacity: var(--fa-primary-opacity, 1)
+        }
+
+        .svg-inline--fa .fa-secondary {
+            fill: var(--fa-secondary-color, currentColor);
+            opacity: .4;
+            opacity: var(--fa-secondary-opacity, .4)
+        }
+
+        .svg-inline--fa.fa-swap-opacity .fa-primary {
+            opacity: .4;
+            opacity: var(--fa-secondary-opacity, .4)
+        }
+
+        .svg-inline--fa.fa-swap-opacity .fa-secondary {
+            opacity: 1;
+            opacity: var(--fa-primary-opacity, 1)
+        }
+
+        .svg-inline--fa mask .fa-primary,
+        .svg-inline--fa mask .fa-secondary {
+            fill: #000
+        }
+
+        .fad.fa-inverse {
+            color: #fff
+        }
+    </style>
+    <link href="./VoxPoser_files/css" rel="stylesheet">
 </head>
+
 <body>
     <div id="title-banner">
         <h1 id="paper-title">AntGPT: Can Large Language Models Help Long-term Action Anticipation from Videos?</h1>
         <p id="authors" style="padding-right: 180px; padding-left: 180px">
-            <a href="https://kevinz8866.github.io/">Qi Zhao<sup>*</sup><sup>1</sup></a>, 
+            <a href="https://kevinz8866.github.io/">Qi Zhao<sup>*</sup><sup>1</sup></a>,
             <a href="https://wang-sj16.github.io/">Shijie Wang<sup>*</sup><sup>1</sup></a>,
-            <a href="mailto:ce_zhang@brown.edu">Ce Zhang<sup>1</sup></a>, 
+            <a href="mailto:ce_zhang@brown.edu">Ce Zhang<sup>1</sup></a>,
             <a href="https://www.linkedin.com/in/changcheng-fu/">Changcheng Fu<sup>1</sup></a>,
             <a href="https://www.linkedin.com/in/minh-quan-do-887419195/">Minh Quan Do<sup>1</sup></a>,
             <a href="https://lukan94.github.io/">Nakul Agarwal<sup>2</sup></a>,
@@ -139,29 +656,47 @@
             <a href="https://chensun.me/">Chen Sun<sup>1</sup></a>
         </p>
         <p id="affiliations">
-            <sup>1</sup>Brown University, 
+            <sup>1</sup>Brown University,
             <sup>2</sup>Honda Research Institute
         </p>
     </div>
-    
+
     <div id="links">
         <a href="https://arxiv.org/abs/2307.16368" class="button">
-        <span class="icon">
-            <svg class="svg-inline--fa fa-file fa-w-12" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="file" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg=""><path fill="currentColor" d="M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24zm160-14.1v6.1H256V0h6.1c6.4 0 12.5 2.5 17 7l97.9 98c4.5 4.5 7 10.6 7 16.9z"></path></svg><!-- <i class="fas fa-file"></i> Font Awesome fontawesome.com -->
-        </span>
-        <span>Paper</span>
+            <span class="icon">
+                <svg class="svg-inline--fa fa-file fa-w-12" aria-hidden="true" focusable="false" data-prefix="fas"
+                    data-icon="file" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"
+                    data-fa-i2svg="">
+                    <path fill="currentColor"
+                        d="M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24zm160-14.1v6.1H256V0h6.1c6.4 0 12.5 2.5 17 7l97.9 98c4.5 4.5 7 10.6 7 16.9z">
+                    </path>
+                </svg><!-- <i class="fas fa-file"></i> Font Awesome fontawesome.com -->
+            </span>
+            <span>Paper</span>
         </a>
         <a href="https://youtu.be/UiHnVakrE-0" class="button">
-        <span class="icon">
-            <svg class="svg-inline--fa fa-youtube fa-w-16" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="youtube" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" data-fa-i2svg=""><path fill="currentColor" d="M549.7 124.1c-6.3-23.7-24.8-42.3-48.3-48.6C458.8 64 288 64 288 64S117.2 64 74.6 75.5c-23.5 6.3-42 24.9-48.3 48.6-11.4 42.9-11.4 132.3-11.4 132.3s0 89.4 11.4 132.3c6.3 23.7 24.8 41.5 48.3 47.8C117.2 448 288 448 288 448s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zm-317.5 213.5V175.2l142.7 81.2-142.7 81.2z"></path></svg><!-- <i class="fas fa-file"></i> Font Awesome fontawesome.com -->
-        </span>
-        <span>Video</span>
+            <span class="icon">
+                <svg class="svg-inline--fa fa-youtube fa-w-16" aria-hidden="true" focusable="false" data-prefix="fab"
+                    data-icon="youtube" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"
+                    data-fa-i2svg="">
+                    <path fill="currentColor"
+                        d="M549.7 124.1c-6.3-23.7-24.8-42.3-48.3-48.6C458.8 64 288 64 288 64S117.2 64 74.6 75.5c-23.5 6.3-42 24.9-48.3 48.6-11.4 42.9-11.4 132.3-11.4 132.3s0 89.4 11.4 132.3c6.3 23.7 24.8 41.5 48.3 47.8C117.2 448 288 448 288 448s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zm-317.5 213.5V175.2l142.7 81.2-142.7 81.2z">
+                    </path>
+                </svg><!-- <i class="fas fa-file"></i> Font Awesome fontawesome.com -->
+            </span>
+            <span>Video</span>
         </a>
-        <a href="#" class="button">
-        <span class="icon">
-            <svg class="svg-inline--fa fa-github fa-w-16" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="github" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" data-fa-i2svg=""><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg><!-- <i class="fab fa-github"></i> Font Awesome fontawesome.com -->
-        </span>
-         <span>Code (Coming Soon)</span>
+        <a href="https://github.com/brown-palm/AntGPT/tree/main" class="button">
+            <span class="icon">
+                <svg class="svg-inline--fa fa-github fa-w-16" aria-hidden="true" focusable="false" data-prefix="fab"
+                    data-icon="github" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"
+                    data-fa-i2svg="">
+                    <path fill="currentColor"
+                        d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z">
+                    </path>
+                </svg><!-- <i class="fab fa-github"></i> Font Awesome fontawesome.com -->
+            </span>
+            <span>Code</span>
         </a>
         <!-- Add more buttons as needed -->
     </div>
@@ -169,25 +704,28 @@
     <div id="main-visualization">
         <img src="./assets/main.gif" class="main-image">
     </div>
-    
+
     <div id="abstract">
         <h2 class="abstract-title">Abstract</h2>
-        <p>Can we better anticipate an actor's future actions (e.g. <i>mix eggs</i>) by knowing what commonly 
-            happens after the current action (e.g. <i>crack eggs</i>)? What if the actor also shares the goal 
-            (e.g. <i>make fried rice</i>) with us? The long-term action anticipation (LTA) task aims to predict 
-            an actor's future behavior from video observations in the form of verb and noun sequences, and it 
-            is crucial for human-machine interaction. We propose to formulate the LTA task from two perspectives: 
-            a <i>bottom-up</i> approach that predicts the next actions autoregressively by modeling temporal dynamics; 
-            and a <i>top-down</i> approach that infers the goal of the actor and <i>plans</i> the needed procedure 
-            to accomplish the goal. We hypothesize that large language models (LLMs), which have been pretrained 
-            on procedure text data (e.g. recipes, how-tos), have the potential to help LTA from both perspectives. 
-            It can help provide the prior knowledge on the possible next actions, and infer the goal given the observed 
-            part of a procedure, respectively. We propose <strong>AntGPT</strong>, which represents video observations as sequences
-             of human actions, and uses the action representation for an LLM to infer the goals and model temporal dynamics.
-            <strong>AntGPT</strong> achieves state-of-the-art performance on Ego4D LTA v1 and v2, EPIC-Kitchens-55, as well
-            as EGTEA GAZE+, thanks to LLMs' goal inference and temporal dynamics modeling capabilities. We further 
-            demonstrate that these capabilities can be effectively distilled into a compact neural network 1.3% of 
-            the original LLM model size. 
+        <p>Can we better anticipate an actor's future actions (e.g. <i>mix eggs</i>) by knowing what commonly
+            happens after the current action (e.g. <i>crack eggs</i>)? What if the actor also shares the goal
+            (e.g. <i>make fried rice</i>) with us? The long-term action anticipation (LTA) task aims to predict
+            an actor's future behavior from video observations in the form of verb and noun sequences, and it
+            is crucial for human-machine interaction. We propose to formulate the LTA task from two perspectives:
+            a <i>bottom-up</i> approach that predicts the next actions autoregressively by modeling temporal dynamics;
+            and a <i>top-down</i> approach that infers the goal of the actor and <i>plans</i> the needed procedure
+            to accomplish the goal. We hypothesize that large language models (LLMs), which have been pretrained
+            on procedure text data (e.g. recipes, how-tos), have the potential to help LTA from both perspectives.
+            It can help provide the prior knowledge on the possible next actions, and infer the goal given the observed
+            part of a procedure, respectively. We propose <strong>AntGPT</strong>, which represents video observations
+            as sequences
+            of human actions, and uses the action representation for an LLM to infer the goals and model temporal
+            dynamics.
+            <strong>AntGPT</strong> achieves state-of-the-art performance on Ego4D LTA v1 and v2, EPIC-Kitchens-55, as
+            well
+            as EGTEA GAZE+, thanks to LLMs' goal inference and temporal dynamics modeling capabilities. We further
+            demonstrate that these capabilities can be effectively distilled into a compact neural network 1.3% of
+            the original LLM model size.
         </p>
     </div>
     <div id="result-visualization">
@@ -202,16 +740,38 @@
                 <figcaption>An illustration of AntGPT's top-down framework.</figcaption>
             </div>
         </div>
-        <p><strong>AntGPT</strong> is a vision-language framework that aims to explore how to incorporate the emergent capabilities of large language models into video long-term action anticipation (LTA). The LTA task is essentially given a video observation of human actions, to anticipate what is the future actions of the actor. To represent video information for LLMs, we use action recognition models to represent video observations into discrete action labels. They bridge visual information and language, allowing LLMs to perform the downstream reasoning tasks. We first query the LLM to infer the goals behind the observed actions. Then we incorporate the goal information into a vision-only pipeline to see if such goal-conditioned prediction is helpful. We also used LLM to directly model the temporal dynamics of human activity to see if LLM has built-in knowledge about action priors. Last but not least, we tested the capability of LLMs to perform the prediction tasks in a few-shot settings, using popular prompting strategies such as "Chain-of-Thought".</p>
-        <p><strong>AntGPT</strong> shows novel capabilities: 
-        <li><strong>Predicting goals through few-shot observations</strong>: We observe that LLMs are very capable of predicting the goals of the actor even given imperfect observed human actions. In context, we demonstrate a few successful examples in which the correct actions and goals are given. Then in the query, we input the observed actions sequences and let LLM output the goals. </li>
-        <li><strong>Augmenting vision frameworks with goal information</strong>: To testify whether the output goals are helpful for the LTA task, we encoder goal information into textual features and incorporate it into a vision framework to perform "goal-conditioned" future prediction and observed improvement to the state-of-the-art.</li>
-        <li><strong>Modeling action temporal dynamics</strong>: We then explored if LLMs can directly act as a reasoning backbone to model the temporal action dynamics. To this end, we fine-tuned LLMs on the in-domain action sequences and observed that LLMs can bring additional improvement than a transformer trained from-scratch. </li>
-        <li><strong>Predicting future actions in few-shot setting</strong>: We further explored how do LLMs perform on the LTA task in a few-shot setting. When only demonstrating a few examples in the context, LLMs can still predict the future action sequences. Furthermore, we experimented with popular prompting strategies.</li>
+        <p><strong>AntGPT</strong> is a vision-language framework that aims to explore how to incorporate the emergent
+            capabilities of large language models into video long-term action anticipation (LTA). The LTA task is
+            essentially given a video observation of human actions, to anticipate what is the future actions of the
+            actor. To represent video information for LLMs, we use action recognition models to represent video
+            observations into discrete action labels. They bridge visual information and language, allowing LLMs to
+            perform the downstream reasoning tasks. We first query the LLM to infer the goals behind the observed
+            actions. Then we incorporate the goal information into a vision-only pipeline to see if such
+            goal-conditioned prediction is helpful. We also used LLM to directly model the temporal dynamics of human
+            activity to see if LLM has built-in knowledge about action priors. Last but not least, we tested the
+            capability of LLMs to perform the prediction tasks in a few-shot settings, using popular prompting
+            strategies such as "Chain-of-Thought".</p>
+        <p><strong>AntGPT</strong> shows novel capabilities:
+            <li><strong>Predicting goals through few-shot observations</strong>: We observe that LLMs are very capable
+                of predicting the goals of the actor even given imperfect observed human actions. In context, we
+                demonstrate a few successful examples in which the correct actions and goals are given. Then in the
+                query, we input the observed actions sequences and let LLM output the goals. </li>
+            <li><strong>Augmenting vision frameworks with goal information</strong>: To testify whether the output goals
+                are helpful for the LTA task, we encoder goal information into textual features and incorporate it into
+                a vision framework to perform "goal-conditioned" future prediction and observed improvement to the
+                state-of-the-art.</li>
+            <li><strong>Modeling action temporal dynamics</strong>: We then explored if LLMs can directly act as a
+                reasoning backbone to model the temporal action dynamics. To this end, we fine-tuned LLMs on the
+                in-domain action sequences and observed that LLMs can bring additional improvement than a transformer
+                trained from-scratch. </li>
+            <li><strong>Predicting future actions in few-shot setting</strong>: We further explored how do LLMs perform
+                on the LTA task in a few-shot setting. When only demonstrating a few examples in the context, LLMs can
+                still predict the future action sequences. Furthermore, we experimented with popular prompting
+                strategies.</li>
     </div>
     <div id="result-visualization">
         <h2>Can LLMs Infer Goals to Assist Top-down ?</h2>
-        <div  class="image-row">
+        <div class="image-row">
             <div style="text-align: center; margin-top: 0px; margin-right: 10px; margin-bottom: 10px">
                 <img src="./assets/goal_visualization_fig2.jpg" class="interpolation-image3" alt="Result Visualization">
                 <figcaption>Examples of the fine-tuned model outputs.</figcaption>
@@ -222,11 +782,22 @@
             </div>
         </div>
         <p></p>
-        <li><strong>What is a good interface between videos and LLMs for the LTA task?</strong>: We experimented with various preprocessing techniques and found that representing video segments as discrete action labels are quite performant to interact with the LLMs, allowing LLMs to perform downstream reasoning from video observations.</li>
-        <li><strong>Can LLMs infer the goals and are they helpful for top-down LTA?</strong>: We find that LLMs can infer the goals and they are particularly helpful for goal-conditioned top-down LTA. As demonstrated in our experiment, our goal-conditioned framework consistently performs better than our vision-only frameworks.</li>
-        <li><strong>Would knowing the goals affect the action predicted by LLMs?</strong>: We did an interesting qualitative experiment to see how about would goal affect the action prediction after we conclude goals inferred by LLMs are useful. If we give an alternative goal instead of the truly inferred goal, how would the output of LLM be affected? We observed that LLMs do respond according to the goal. For example, when we switch the inferred goal "fix machines" into "examine machines", LLMs will predict some actions that are exclusively related to "examine machines" like "read gauge", "record data", etc.</li>
+        <li><strong>What is a good interface between videos and LLMs for the LTA task?</strong>: We experimented with
+            various preprocessing techniques and found that representing video segments as discrete action labels are
+            quite performant to interact with the LLMs, allowing LLMs to perform downstream reasoning from video
+            observations.</li>
+        <li><strong>Can LLMs infer the goals and are they helpful for top-down LTA?</strong>: We find that LLMs can
+            infer the goals and they are particularly helpful for goal-conditioned top-down LTA. As demonstrated in our
+            experiment, our goal-conditioned framework consistently performs better than our vision-only frameworks.
+        </li>
+        <li><strong>Would knowing the goals affect the action predicted by LLMs?</strong>: We did an interesting
+            qualitative experiment to see how about would goal affect the action prediction after we conclude goals
+            inferred by LLMs are useful. If we give an alternative goal instead of the truly inferred goal, how would
+            the output of LLM be affected? We observed that LLMs do respond according to the goal. For example, when we
+            switch the inferred goal "fix machines" into "examine machines", LLMs will predict some actions that are
+            exclusively related to "examine machines" like "read gauge", "record data", etc.</li>
     </div>
-        
+
     <div id="result-visualization">
         <h2>Do LLMs Model Temporal Dynamics? </h2>
         <div class='image-row'>
@@ -240,10 +811,18 @@
             </div>
         </div>
         <p></p>
-        <li><strong>LLMs are able to model temporal dynamics</strong>: We found that fine-tuned LLM are better reasoning backbones than similar transformers trained from-scratch. Even with imperfect output structure and rough post-processing, LLMs still outperform their transformer peers.</li>
-        <li><strong>LLM-based temporal model performs implicit goal inference</strong>: We found that fine-tuned LLMs do implicit goal inference as when we add inferred goal to the fine-tuned LLMs the performance does not increase compare to their bottom-up counterparts.</li>
-        <li><strong>Language prior encoded by LLMs benefit LTA</strong>:Through semantic perbutation experiments, we found that with other symbolic representation of actions, the temporal dynamics modeling ability decreases indicating that LLMs leverage the language prior to achieve better temporal dynamics modeling.
-        <li><strong>LLM-encoded knowledge can be condensed into a compact model</strong>: We conduct knowledge distillation to train a small student model using the fine-tuned LLM as a teacher model and observed the knowledge can be transferred and the student model can outperform the teacher model. </li>
+        <li><strong>LLMs are able to model temporal dynamics</strong>: We found that fine-tuned LLM are better reasoning
+            backbones than similar transformers trained from-scratch. Even with imperfect output structure and rough
+            post-processing, LLMs still outperform their transformer peers.</li>
+        <li><strong>LLM-based temporal model performs implicit goal inference</strong>: We found that fine-tuned LLMs do
+            implicit goal inference as when we add inferred goal to the fine-tuned LLMs the performance does not
+            increase compare to their bottom-up counterparts.</li>
+        <li><strong>Language prior encoded by LLMs benefit LTA</strong>:Through semantic perbutation experiments, we
+            found that with other symbolic representation of actions, the temporal dynamics modeling ability decreases
+            indicating that LLMs leverage the language prior to achieve better temporal dynamics modeling.
+        <li><strong>LLM-encoded knowledge can be condensed into a compact model</strong>: We conduct knowledge
+            distillation to train a small student model using the fine-tuned LLM as a teacher model and observed the
+            knowledge can be transferred and the student model can outperform the teacher model. </li>
 
     </div>
 
@@ -255,26 +834,35 @@
             <figcaption>Examples of counterfactual predictions.</figcaption>
             </div> -->
             <div style="text-align: center; margin-bottom: 10px;">
-            <img src="./assets/icl.png" class="interpolation-image5" alt="Result Visualization">
-            <figcaption>Illustration of few-shot goal inference and LTA with LLMs.</figcaption>
+                <img src="./assets/icl.png" class="interpolation-image5" alt="Result Visualization">
+                <figcaption>Illustration of few-shot goal inference and LTA with LLMs.</figcaption>
             </div>
         </div>
         <p>
-            Beyond fine-tuning, we are also interested in understanding if LLM's in-context learning capability generalizes to the LTA task. Compared with fine-tuning the model with the whole training set, in-context learning avoids updating the weights of a pre-trained LLM.
-            </p>
-            
-            <p>
+            Beyond fine-tuning, we are also interested in understanding if LLM's in-context learning capability
+            generalizes to the LTA task. Compared with fine-tuning the model with the whole training set, in-context
+            learning avoids updating the weights of a pre-trained LLM.
+        </p>
+
+        <p>
             An ICL prompt consists of three parts:
-            </p>
-            
-            <ol>
-                <li>An instruction that specifies the anticipating action task, the output format, and the verb and noun vocabulary.</li>
-                <li>The in-context examples randomly sampled from the training set. They are in the format of <code>"&lt;observed actions&gt; => &lt;future actions&gt;"</code> with ground-truth actions.</li>
-                <li>Finally, the query in the format <code>"&lt;observed actions&gt; => "</code> with recognized actions.</li>
-            </ol>
-            
-            <p>
-            We also attempt to leverage chain-of-thoughts prompts (CoT) to ask the LLM to first infer the goal, then perform LTA conditioned on the inferred goal. We observe that all LLM-based methods perform much better than the transformer baseline for few-shot LTA. Among all the LLM-based methods, top-down prediction with CoT prompts achieves the best performance on both verb and noun. However, the gain of explicitly using goal conditioning is marginal, similar to what we have observed when training on the full set.</p>
+        </p>
+
+        <ol>
+            <li>An instruction that specifies the anticipating action task, the output format, and the verb and noun
+                vocabulary.</li>
+            <li>The in-context examples randomly sampled from the training set. They are in the format of
+                <code>"&lt;observed actions&gt; => &lt;future actions&gt;"</code> with ground-truth actions.</li>
+            <li>Finally, the query in the format <code>"&lt;observed actions&gt; => "</code> with recognized actions.
+            </li>
+        </ol>
+
+        <p>
+            We also attempt to leverage chain-of-thoughts prompts (CoT) to ask the LLM to first infer the goal, then
+            perform LTA conditioned on the inferred goal. We observe that all LLM-based methods perform much better than
+            the transformer baseline for few-shot LTA. Among all the LLM-based methods, top-down prediction with CoT
+            prompts achieves the best performance on both verb and noun. However, the gain of explicitly using goal
+            conditioning is marginal, similar to what we have observed when training on the full set.</p>
     </div>
 
     <div id="bibtex-banner">
@@ -287,4 +875,5 @@
      }</code></pre>
     </div>
 </body>
+
 </html>
