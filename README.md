@@ -164,7 +164,7 @@ python -m transformer_models.run --cfg transformer_models/configs/ego4d_image_pr
 
 ### GPT Experiments
 
-To run a GPT experiment, please use one of the workflow illustration [notebooks](llm_models/Finetuning/workflow_illustration.ipynb).
+To run a GPT experiment, please use one of the workflow illustration [notebooks](GPT_models/Finetuning/workflow_illustration.ipynb).
 
 
 ### Llama2 Experiments
